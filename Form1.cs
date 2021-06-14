@@ -58,11 +58,16 @@ namespace ActidinController
                 // закрываем сокет
                /* socket.Shutdown(SocketShutdown.Both);
                 socket.Close();*/
+                actCmd.SendMessage("RMT 0  \n");
+                actCmd.SendMessage("POS &,?\n");
+                actCmd.SendMessage("USR 0,?\n");
+             //   actCmd.SendMessage("USR 0,1,1234");
+                actCmd.SendMessage("POS &,?\n");
+                //actCmd.SendMessage("ALC 0  \n");
+                actCmd.SendMessage("MOD 1,?\n");
+                actCmd.SendMessage("MOD 1,?\n");
 
-                actCmd.SendMessage("RTM 0");
-                actCmd.SendMessage("USR 0, ?");
-                actCmd.SendMessage("USR 1,1234");
-                actCmd.SendMessage("POS 1,? ");
+
             }
             catch (Exception ex)
             {
@@ -134,16 +139,16 @@ namespace ActidinController
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             // закрываем сокет
-             socket.Shutdown(SocketShutdown.Both);
-             socket.Close();
+            //socket.Shutdown(SocketShutdown.Both);
+            //socket.Close();
+            actCmd.CloseSocket();
         }
 
         private void button10_Click(object sender, EventArgs e)
         {
-            string message = "RMT 0 \n";
-            message = "POS &,?\n";
+            string message = "RMT 0";
             byte[] data = Encoding.UTF8.GetBytes(message);
-            socket.Send(data,8,0);
+          //  socket.Send(data);
 
             richTextBox1.Text =  message;
         }
