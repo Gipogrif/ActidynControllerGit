@@ -26,19 +26,33 @@ namespace ActidinController
         {
             try
             {
-                byte[] data = new byte[8];
-                data = Encoding.UTF8.GetBytes(message);
-                socket.Send(data,8,0);
+                char next = '\n';
+                if (message.Length < 9)
+                {
+                    byte[] data = new byte[8];
+                    data = Encoding.UTF8.GetBytes(message);
+                    data[7] = (byte)next;
+
+                    socket.Send(data, 8, 0);
+                }
+                else
+                {
+                    byte[] data = new byte[16];
+                    data = Encoding.UTF8.GetBytes(message);
+                    data[15] = (byte)next;
+
+                    socket.Send(data, 16, 0);
+                }
 
                 // получаем ответ
-                data = new byte[256]; // буфер для ответа
+                byte[] buf = new byte[256]; // буфер для ответа
                 StringBuilder builder = new StringBuilder();
                 int bytes = 0; // количество полученных байт
 
                 while (socket.Available > 0)
                 {
-                    bytes = socket.Receive(data, data.Length, 0);
-                    builder.Append(Encoding.UTF8.GetString(data, 0, bytes));
+                    bytes = socket.Receive(buf, buf.Length, 0);
+                    builder.Append(Encoding.UTF8.GetString(buf, 0, bytes));
                 }
 
                 return builder.ToString();
