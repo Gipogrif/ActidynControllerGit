@@ -31,15 +31,12 @@ namespace ActidinController
                 {
                     byte[] data = new byte[8];
                     data = Encoding.UTF8.GetBytes(message);
-                    data[7] = (byte)next;
 
                     socket.Send(data, 8, 0);
                 }
                 else
                 {
-                    byte[] data = new byte[16];
-                    data = Encoding.UTF8.GetBytes(message);
-                    data[15] = (byte)next;
+                    byte[] data = Encoding.UTF8.GetBytes(message);
 
                     socket.Send(data, 16, 0);
                 }

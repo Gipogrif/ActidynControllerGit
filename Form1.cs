@@ -61,14 +61,24 @@ namespace ActidinController
                 actCmd.SendMessage("RMT 0  \n");
                 actCmd.SendMessage("POS &,?\n");
                 actCmd.SendMessage("USR 0,?\n");
-                //actCmd.SendMessage("USR 0,1,1234");
-                //actCmd.SendMessage("ALC 0  \n");
+                actCmd.SendMessage("USR 0,2,4321   \n");
+                actCmd.SendMessage("USR 0,?\n");
+                actCmd.SendMessage("ALC 0  \n");
+                actCmd.SendMessage("ALC 0");
+                actCmd.SendMessage("ALC 0          \n");
+                actCmd.SendMessage("ALC 0       \n");
+                /*actCmd.SendMessage("ALC 0        \n");
+                actCmd.SendMessage("ALC 0    \n");
                 actCmd.SendMessage("POS &,?\n");
-                
+
+                //actCmd.SendMessage("ALC 0  \n");
                 actCmd.SendMessage("MOD 1,?\n");
-                actCmd.SendMessage("MOD &,1\n");
-                actCmd.SendMessage("MOD &,1\n");
-                actCmd.SendMessage("POS 1,45,5\n");
+                actCmd.SendMessage("MOD &,1        \n");
+                actCmd.SendMessage("MOD &,1        \n");
+                actCmd.SendMessage("MOD 1,?\n");
+                actCmd.SendMessage("MOD 1,POS      \n");
+                actCmd.SendMessage("POS 1,45,5     \n");
+                actCmd.SendMessage("MOD &,OFF      \n");*/
 
 
             }
