@@ -14,11 +14,7 @@ namespace ActidinController
 {
     public partial class Form1 : Form
     {
-        // адрес и порт сервера, к которому будем подключаться
-        static int port = 62000; // порт сервера
-        static string address = "192.168.100.11"; // адрес сервера
-        IPEndPoint ipPoint;
-        Socket socket;
+
         ActidynCmd actCmd = new ActidynCmd("192.168.100.11", 62000);
         public Form1()
         {
@@ -31,33 +27,7 @@ namespace ActidinController
         {
             try
             {
-                /*ipPoint = new IPEndPoint(IPAddress.Parse(address), port);
 
-                socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                // подключаемся к удаленному хосту
-                socket.Connect(ipPoint);
-                string message = "RMT 0";
-                byte[] data = Encoding.Unicode.GetBytes(message);
-                socket.Send(data);
-
-                Task.Delay(100);
-
-                // получаем ответ
-                data = new byte[256]; // буфер для ответа
-                StringBuilder builder = new StringBuilder();
-                int bytes = 0; // количество полученных байт
-
-                do
-                {
-                    bytes = socket.Receive(data, data.Length, 0);
-                    builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
-                }
-                while (socket.Available > 0);
-                richTextBox1.Text = "ответ сервера: " + builder.ToString();
-
-                // закрываем сокет
-               /* socket.Shutdown(SocketShutdown.Both);
-                socket.Close();*/
                 actCmd.SendMessage("RMT 0  \n");
                 actCmd.SendMessage("POS &,?\n");
                 actCmd.SendMessage("USR 0,?\n");
@@ -97,23 +67,7 @@ namespace ActidinController
         {
             try
             {
-                string message = "POS 1,?";
-                byte[] data = Encoding.Unicode.GetBytes(message);
-                socket.Send(data);
-
-                Task.Delay(100);
-
-                data = new byte[256]; // буфер для ответа
-                StringBuilder builder = new StringBuilder();
-                int bytes = 0; // количество полученных байт
-
-                do
-                {
-                    bytes = socket.Receive(data, data.Length, 0);
-                    builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
-                }
-                while (socket.Available > 0);
-                posGetAx1Text.Text = builder.ToString();
+                posGetAx1Text.Text = actCmd.SendMessage("POS 1,?\n");
             }
             catch (Exception ex)
             {
@@ -125,23 +79,7 @@ namespace ActidinController
         {
             try
             {
-                string message = "POS 2,?";
-                byte[] data = Encoding.Unicode.GetBytes(message);
-                socket.Send(data);
-
-                Task.Delay(100);
-
-                data = new byte[256]; // буфер для ответа
-                StringBuilder builder = new StringBuilder();
-                int bytes = 0; // количество полученных байт
-
-                do
-                {
-                    bytes = socket.Receive(data, data.Length, 0);
-                    builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
-                }
-                while (socket.Available > 0);
-                posGetAx2Text.Text = builder.ToString();
+                posGetAx2Text.Text = actCmd.SendMessage("POS 2,?\n");
             }
             catch (Exception ex)
             {
@@ -161,6 +99,14 @@ namespace ActidinController
         {
             string message = "RMT 0";
             byte[] data = Encoding.UTF8.GetBytes(message);
+            for (int i = 0; i < 33; i++)
+            {
+                message += ' ';
+                data = Encoding.UTF8.GetBytes(message);
+                data[data.Length - 1] = (byte)'\n';
+                actCmd.SendMessage(data);
+                i++;
+            }
           //  socket.Send(data);
 
             richTextBox1.Text =  message;

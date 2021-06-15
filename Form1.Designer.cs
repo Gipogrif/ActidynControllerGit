@@ -836,9 +836,9 @@
             // 
             this.button10.Location = new System.Drawing.Point(921, 365);
             this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(75, 23);
+            this.button10.Size = new System.Drawing.Size(71, 41);
             this.button10.TabIndex = 66;
-            this.button10.Text = "button10";
+            this.button10.Text = "тест команд";
             this.button10.UseVisualStyleBackColor = true;
             this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
