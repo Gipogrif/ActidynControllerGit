@@ -74,8 +74,8 @@ namespace ActidinController
 
                 while (socket.Available > 0)
                 {
-                    bytes = socket.Receive(buf, buf.Length, 0);
-                    builder.Append(Encoding.UTF8.GetString(buf, 0, bytes));
+                    bytes = socket.Receive(data, data.Length, 0);
+                    builder.Append(Encoding.UTF8.GetString(data, 0, bytes));
                 }
 
                 return builder.ToString();

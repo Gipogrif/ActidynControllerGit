@@ -97,17 +97,50 @@ namespace ActidinController
 
         private void button10_Click(object sender, EventArgs e)
         {
-            string message = "RMT 0";
+            //string message = "RMT 0";
+
+            //string message = "POS &,?\nUSR 0,?\n";
+            //string message = "ALC 0\n";
+            string message = "RMT 0\nUSR 0,2,4321\nALC 0\nMOD 1,POS\n";//MOD 1,1\nMOD 1,?\nRMT 0\nPOS &,?\nUSR 0,?\nMOD 1,?\n//MOD 1,1\nMOD 1,?\nMOD 1,RAT\nMOD 1,?\nMOD 1,?\n";
             byte[] data = Encoding.UTF8.GetBytes(message);
-            for (int i = 0; i < 33; i++)
+            actCmd.SendMessage(data);
+
+            message = "MOD 1,POS\nPOS 1,10,5\nMOD 1,?\n";
+            data = Encoding.UTF8.GetBytes(message);
+            actCmd.SendMessage(data);
+            // message = "POS 1,45,5\nMOD 1,POS\nMOD 1,?\n";
+            message = "POS 1,-45,5\n";
+            data = Encoding.UTF8.GetBytes(message);
+            actCmd.SendMessage(data);
+
+            message = "MOD 1,STP\n";
+            data = Encoding.UTF8.GetBytes(message);
+            actCmd.SendMessage(data);
+
+            message = "MOD 1,?\n";
+            data = Encoding.UTF8.GetBytes(message);
+            actCmd.SendMessage(data);
+
+            message = "MOD 1,POS\n";
+            data = Encoding.UTF8.GetBytes(message);
+            actCmd.SendMessage(data);
+
+            message = "MOD 1,?\n";
+            data = Encoding.UTF8.GetBytes(message);
+            actCmd.SendMessage(data);
+
+            message = "POS 1,90\n";
+            data = Encoding.UTF8.GetBytes(message);
+            actCmd.SendMessage(data);
+            /*for (int i = 0; i < 33; i++)
             {
                 message += ' ';
                 data = Encoding.UTF8.GetBytes(message);
                 data[data.Length - 1] = (byte)'\n';
                 actCmd.SendMessage(data);
                 i++;
-            }
-          //  socket.Send(data);
+            }*/
+            //  socket.Send(data);
 
             richTextBox1.Text =  message;
         }
