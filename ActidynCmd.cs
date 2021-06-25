@@ -14,12 +14,19 @@ namespace ActidinController
         Socket socket;
         public ActidynCmd(string address, int port)
         {
+            try
+            {
+                ipPoint = new IPEndPoint(IPAddress.Parse(address), port);
 
-            ipPoint = new IPEndPoint(IPAddress.Parse(address), port);
+                socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                // подключаемся к удаленному хосту
+                socket.Connect(ipPoint);
+            }
+            finally
+            {
 
-            socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            // подключаемся к удаленному хосту
-            socket.Connect(ipPoint);
+            }
+
         }
 
         public string SendMessage(string message)
@@ -53,7 +60,7 @@ namespace ActidinController
                     builder.Append(Encoding.UTF8.GetString(buf, 0, bytes));
                 }
 
-                return builder.ToString();
+                return message + " : " + builder.ToString();
             }
             catch (Exception ex)
             {

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.posSetAx1Text = new System.Windows.Forms.TextBox();
             this.rateSetAx1Text = new System.Windows.Forms.TextBox();
             this.posSetAx2Text = new System.Windows.Forms.TextBox();
@@ -107,6 +108,7 @@
             this.connectBtn = new System.Windows.Forms.Button();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.button10 = new System.Windows.Forms.Button();
+            this.timer = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -842,6 +844,10 @@
             this.button10.UseVisualStyleBackColor = true;
             this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
+            // timer
+            // 
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -984,6 +990,7 @@
         private System.Windows.Forms.Button getPosAx2;
         private System.Windows.Forms.Button getPosAx1;
         private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.Timer timer;
     }
 }
 

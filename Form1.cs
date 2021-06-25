@@ -28,8 +28,10 @@ namespace ActidinController
             try
             {
 
-                actCmd.SendMessage("RMT 0  \n");
-                actCmd.SendMessage("POS &,?\n");
+                richTextBox1.Text = actCmd.SendMessage("RMT 0\n");
+
+
+                /*actCmd.SendMessage("POS &,?\n");
                 actCmd.SendMessage("USR 0,?\n");
                 actCmd.SendMessage("USR 0,2,4321   \n");
                 actCmd.SendMessage("USR 0,?\n");
@@ -37,7 +39,7 @@ namespace ActidinController
                 actCmd.SendMessage("ALC 0");
                 actCmd.SendMessage("ALC 0          \n");
                 actCmd.SendMessage("ALC 0       \n");
-                /*actCmd.SendMessage("ALC 0        \n");
+                actCmd.SendMessage("ALC 0        \n");
                 actCmd.SendMessage("ALC 0    \n");
                 actCmd.SendMessage("POS &,?\n");
 
@@ -143,6 +145,12 @@ namespace ActidinController
             //  socket.Send(data);
 
             richTextBox1.Text =  message;
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            posGetAx1Text.Text = actCmd.SendMessage("POS 1,?\n");
+            posGetAx2Text.Text = actCmd.SendMessage("POS 2,?\n");
         }
     }
 }
