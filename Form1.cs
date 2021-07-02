@@ -15,7 +15,9 @@ namespace ActidinController
     public partial class Form1 : Form
     {
 
-        ActidynCmd actCmd = new ActidynCmd("192.168.100.11", 62000);
+        ActidynCmd actCmd;// = new ActidynCmd("192.168.100.11", 62000);
+        bool actidynConnect = false;
+
         public Form1()
         {
             InitializeComponent();
@@ -27,8 +29,21 @@ namespace ActidinController
         {
             try
             {
+                actCmd = new ActidynCmd();
+                actidynConnect = actCmd.ActidynCmdConnect("192.168.100.11", 62000);
+                if (actidynConnect)
+                {
+                    richTextBox1.AppendText(actCmd.SendMessage("RMT 0\n")+"\n");
+                    richTextBox1.AppendText(actCmd.SendMessage("USR 0,?\n") + "\n");
+                    richTextBox1.AppendText(actCmd.SendMessage("USR 0,1,1234\n") + "\n");
+                    richTextBox1.AppendText(actCmd.SendMessage("USR 0,?\n") + "\n");
+                    /* richTextBox1.Text = actCmd.SendMessage("RMT 0\n")[0];
+                       richTextBox1.Text = actCmd.SendMessage("USR 0,?\n")[0];
+                       richTextBox1.Text = actCmd.SendMessage("USR 0,2,4321\n")[0];
+                       richTextBox1.Text = actCmd.SendMessage("USR 0,?\n")[0];*/
 
-                richTextBox1.Text = actCmd.SendMessage("RMT 0\n");
+                }
+                else MessageBox.Show("Ошибка подключения к Actidyn");
 
 
                 /*actCmd.SendMessage("POS &,?\n");
@@ -91,66 +106,264 @@ namespace ActidinController
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // закрываем сокет
-            //socket.Shutdown(SocketShutdown.Both);
-            //socket.Close();
-            actCmd.CloseSocket();
-        }
-
-        private void button10_Click(object sender, EventArgs e)
-        {
-            //string message = "RMT 0";
-
-            //string message = "POS &,?\nUSR 0,?\n";
-            //string message = "ALC 0\n";
-            string message = "RMT 0\nUSR 0,2,4321\nALC 0\nMOD 1,POS\n";//MOD 1,1\nMOD 1,?\nRMT 0\nPOS &,?\nUSR 0,?\nMOD 1,?\n//MOD 1,1\nMOD 1,?\nMOD 1,RAT\nMOD 1,?\nMOD 1,?\n";
-            byte[] data = Encoding.UTF8.GetBytes(message);
-            actCmd.SendMessage(data);
-
-            message = "MOD 1,POS\nPOS 1,10,5\nMOD 1,?\n";
-            data = Encoding.UTF8.GetBytes(message);
-            actCmd.SendMessage(data);
-            // message = "POS 1,45,5\nMOD 1,POS\nMOD 1,?\n";
-            message = "POS 1,-45,5\n";
-            data = Encoding.UTF8.GetBytes(message);
-            actCmd.SendMessage(data);
-
-            message = "MOD 1,STP\n";
-            data = Encoding.UTF8.GetBytes(message);
-            actCmd.SendMessage(data);
-
-            message = "MOD 1,?\n";
-            data = Encoding.UTF8.GetBytes(message);
-            actCmd.SendMessage(data);
-
-            message = "MOD 1,POS\n";
-            data = Encoding.UTF8.GetBytes(message);
-            actCmd.SendMessage(data);
-
-            message = "MOD 1,?\n";
-            data = Encoding.UTF8.GetBytes(message);
-            actCmd.SendMessage(data);
-
-            message = "POS 1,90\n";
-            data = Encoding.UTF8.GetBytes(message);
-            actCmd.SendMessage(data);
-            /*for (int i = 0; i < 33; i++)
+            if (actidynConnect)
             {
-                message += ' ';
-                data = Encoding.UTF8.GetBytes(message);
-                data[data.Length - 1] = (byte)'\n';
-                actCmd.SendMessage(data);
-                i++;
-            }*/
-            //  socket.Send(data);
-
-            richTextBox1.Text =  message;
+                // закрываем сокет
+                //socket.Shutdown(SocketShutdown.Both);
+                //socket.Close();
+                actCmd.SendMessage("MOD &,OFF\n");
+                //actCmd.SendMessage("LOC 0\n");
+                actCmd.CloseSocket();
+            }
+            else { }
         }
 
-        private void timer_Tick(object sender, EventArgs e)
+        private void button10_Click(object sender, EventArgs e) // Включение\Выключение таймера (временная кнопка)
         {
-            posGetAx1Text.Text = actCmd.SendMessage("POS 1,?\n");
-            posGetAx2Text.Text = actCmd.SendMessage("POS 2,?\n");
+            if (timer.Enabled)
+            {
+                timer.Enabled = false;
+                timerAlarm.Enabled = false;
+            }
+            else
+            {
+                timer.Enabled = true;
+                timerAlarm.Enabled = true;
+            }
+        }
+
+
+
+        private void startAx1Btn_Click(object sender, EventArgs e)
+        {
+            if(tabControl1.SelectedIndex == 0) // движение позиционное
+            {
+                if(statusGetAx1Text.Text == " POS") { actCmd.SendMessage($"POS 1,{posSetAx1Text.Text},{rateSetAx1Text.Text}\n"); }
+                else
+                {
+                    actCmd.SendMessage("MOD 1,POS\n");
+                    actCmd.SendMessage($"POS 1,{posSetAx1Text.Text},{rateSetAx1Text.Text}\n");
+                }
+                 //actCmd.SendMessage($"MOD 1,POS:POS 1,{posSetAx1Text.Text},{rateSetAx1Text.Text}\n");
+                 /*actCmd.SendMessage($"POS 1,{posSetAx1Text.Text},{rateSetAx1Text.Text}\n");
+                actCmd.SendMessage("MOD 1,POS\n");*/
+
+                /*string posAx1 = posSetAx1Text.Text;
+                string rateAx1 = rateSetAx1Text.Text;
+                //actCmd.SendMessage($"MOD 1,POS:POS 1,{posAx1},{rateAx1}\n");
+                //actCmd.SendMessage("MOD 1,POS\n");
+                actCmd.SendMessage("MOD 1,POS:POS 1,110,10\n");
+                //actCmd.SendMessage($"POS 1,{posAx1},{rateAx1}\n"); */
+            }
+            else if(tabControl1.SelectedIndex == 1) // движение синусоидальное
+            {
+                if (statusGetAx1Text.Text == " SIN")
+                {
+                    actCmd.SendMessage($"RMS 1,{rampASetAx1Text.Text},{rampFSetAx1Text.Text}\n");
+                    actCmd.SendMessage($"SIN 1,{amplSetAx1Text.Text},{freqSetAx1Text.Text},{phaseSetAx1Text.Text}\n");
+                }
+                else
+                {
+                    actCmd.SendMessage("MOD 1,SIN\n");
+                    actCmd.SendMessage($"RMS 1,{rampASetAx1Text.Text},{rampFSetAx1Text.Text}\n");
+                    actCmd.SendMessage($"SIN 1,{amplSetAx1Text.Text},{freqSetAx1Text.Text},{phaseSetAx1Text.Text}\n");
+                }
+            }
+            else
+            {
+                actCmd.SendMessage("MOD 1,POS\n");
+                actCmd.SendMessage($"POS 1,{posGetAx1Text.Text},10");
+                actCmd.SendMessage("MOD 1,STP\n"); // стоп
+            }
+        }
+
+        private void stopAx1Btn_Click(object sender, EventArgs e)
+        {
+            actCmd.SendMessage("MOD 1,POS\n");
+            actCmd.SendMessage($"POS 1,{posGetAx1Text.Text},10");
+            actCmd.SendMessage("MOD 1,STP\n");
+        }
+
+        private void servoAx1Btn_Click(object sender, EventArgs e) //Включение Привода 1
+        {
+            //if (!modOn1) // условие включает Сервопривод
+            if(statusGetAx1Text.Text == " OFF")
+            {
+                actCmd.SendMessage("MOD 1,1\n");
+            }
+            else // выключает
+            {
+                actCmd.SendMessage("MOD 1,OFF\n");
+            }
+        }
+
+        private void AlarmBtn_Click(object sender, EventArgs e)
+        {
+            richTextBox1.AppendText(actCmd.SendMessage("ALC 0\n")+"\n");
+        }
+
+        private void startAx2Btn_Click(object sender, EventArgs e)
+        {
+            if (tabPagePos.Focused)
+            {
+                actCmd.SendMessage("MOD 2,POS\n");
+                actCmd.SendMessage($"POS 2,{posSetAx1Text},{rateSetAx1Text}\n");
+            }
+            else if (tabPageSine.Focused)
+            {
+                actCmd.SendMessage("MOD 2,SIN\n");
+                actCmd.SendMessage($"RMS 2,{rampASetAx1Text},{rampFSetAx1Text}\n");
+                actCmd.SendMessage($"SIN 2,{amplSetAx1Text},{freqSetAx1Text},{phaseSetAx1Text}\n");
+            }
+            else
+            {
+                actCmd.SendMessage("MOD 2,STP\n");
+            }
+        }
+
+        private void stopAx2Btn_Click(object sender, EventArgs e)
+        {
+            actCmd.SendMessage("MOD 2,STP\n");
+        }
+
+        private void servoAx2Btn_Click(object sender, EventArgs e) //Включение Привода 2
+        {
+            if (statusGetAx2Text.Text == " OFF")
+            {
+                actCmd.SendMessage("MOD 2,1\n");
+            }
+            else // выключает
+            {
+                actCmd.SendMessage("MOD 2,OFF\n");
+            }
+        }
+
+        private void QuietSelect (string quiet) // обработчик ответов от команд
+        {
+            string[] split = quiet.Split(',');
+
+            switch (split[0]+","+split[1])
+            {
+                case "PRV 1,?\n":
+                    if ((int)char.GetNumericValue(split[2][split[2].Length - 1]) == 3)
+                    {
+                        posGetAx1Text.Text = split[3];
+                        rateGetAx1Text.Text = split[4];
+                        accGetAx1Text.Text = split[5];
+                    }
+                    else { richTextBox1.AppendText($"Ошибка ответа команды {split[0] + "," + split[1]} \n"); }
+                    break;
+                case "PRV 2,?\n":
+                    if((int)char.GetNumericValue(split[2][split[2].Length - 1]) == 3)
+                    {
+                        posGetAx2Text.Text = split[3];
+                        rateGetAx2Text.Text = split[4];
+                        accGetAx2Text.Text = split[5];
+                    }
+                    else { richTextBox1.AppendText($"Ошибка ответа команды {split[0] + "," + split[1]} \n"); }
+                    break;
+                case "MOD &,?\n":
+                    if((int)char.GetNumericValue(split[2][split[2].Length - 1]) == 2)
+                    {
+                        statusGetAx1Text.Text = split[3];
+                        statusGetAx2Text.Text = split[4];
+                    }
+                    else { richTextBox1.AppendText($"Ошибка ответа команды {split[0] + "," + split[1]} \n"); }
+                    break;
+                case "PRV &,?\n":
+                    if ((int)char.GetNumericValue(split[2][split[2].Length - 1]) == 6)
+                    {
+                        posGetAx1Text.Text = split[3];
+                        rateGetAx1Text.Text = split[4];
+                        accGetAx1Text.Text = split[5];
+                        posGetAx2Text.Text = split[6];
+                        rateGetAx2Text.Text = split[7];
+                        accGetAx2Text.Text = split[8];
+                    }
+                    else { richTextBox1.AppendText($"Ошибка ответа команды {split[0] + "," + split[1]} \n"); }
+                    break;
+                case "MOD &,?:PRV &,?\n":
+                    if((int)char.GetNumericValue(split[1][split[1].Length - 1]) == 8)
+                    {
+                        statusGetAx1Text.Text = split[2];
+                        statusGetAx2Text.Text = split[3];
+                        posGetAx1Text.Text = split[4];
+                        rateGetAx1Text.Text = split[5];
+                        accGetAx1Text.Text = split[6];
+                        posGetAx2Text.Text = split[7];
+                        rateGetAx2Text.Text = split[8];
+                        accGetAx2Text.Text = split[9];
+                    }
+                    else { richTextBox1.AppendText($"Ошибка ответа команды {split[0]} &\n"); }
+                    break;
+                case "FRZ &,?\n":
+                    if((int)char.GetNumericValue(split[2][split[2].Length - 1]) == 10)
+                    {
+                        posGetAx1Text.Text = split[5];
+                        rateGetAx1Text.Text = split[6];
+                        accGetAx1Text.Text = split[7];
+                        posGetAx2Text.Text = split[10];
+                        rateGetAx2Text.Text = split[11];
+                        accGetAx2Text.Text = split[12];
+                    }
+                    else { richTextBox1.AppendText($"Ошибка ответа команды {split[0]} &\n"); }
+                    break;
+                case "MOD &,?:FRZ &,?\n":
+                    if((int)char.GetNumericValue(split[1][split[1].Length - 1]) == 12)
+                    {
+                        statusGetAx1Text.Text = split[2];
+                        statusGetAx2Text.Text = split[3];
+                        posGetAx1Text.Text = split[6];
+                        rateGetAx1Text.Text = split[7];
+                        accGetAx1Text.Text = split[8];
+                        posGetAx2Text.Text = split[11];
+                        rateGetAx2Text.Text = split[12];
+                        accGetAx2Text.Text = split[13];
+                    }
+                    else { richTextBox1.AppendText($"Ошибка ответа команды {split[0]} &\n"); }
+                    break;
+            }
+        }
+
+        private void StatusGetAx() // обработчик кнопок Servo On/Off
+        {
+            if (statusGetAx1Text.Text == " OFF")
+            {
+                servoAx1Btn.Text = "Servo OFF";
+                servoAx1Btn.BackColor = Color.Red;
+            }
+            else
+            {
+                servoAx1Btn.Text = "Servo ON";
+                servoAx1Btn.BackColor = Color.Green;
+            }
+            if (statusGetAx2Text.Text == " OFF")
+            {
+                servoAx2Btn.Text = "Servo ON";
+                servoAx2Btn.BackColor = Color.Red;
+            }
+            else
+            {
+                servoAx2Btn.Text = "Servo OFF";
+                servoAx2Btn.BackColor = Color.Green;
+            }
+        }
+
+        private void timer_Tick(object sender, EventArgs e)  // ТАЙМЕР 
+        {
+            QuietSelect(actCmd.SendMessage("MOD &,?\n")); // запрос режима работы привода
+            QuietSelect(actCmd.SendMessage("PRV &,?\n")); // запрос положения, скорости и ускорения
+            // QuietSelect(actCmd.SendMessage("RPV &,?\n"));
+            // QuietSelect(actCmd.SendMessage("MOD &,?:FRZ &,?\n"));
+            // QuietSelect(actCmd.SendMessage("MOD &,?:PRV &,?\n"));
+            StatusGetAx();
+        }
+
+        private void timerAlarm_Tick(object sender, EventArgs e) // раз в 20 сек сбрасывает накопленные ошибки 
+                                                                 //(если в течении 30сек не сбрасывать ошибки, то привод отключаеться)
+        {
+            actCmd.SendMessage("ALC 0\n");
         }
     }
+
 }
