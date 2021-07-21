@@ -60,12 +60,12 @@
             this.FreqAx2Lb = new System.Windows.Forms.Label();
             this.PhaseAx2Lb = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPagePos = new System.Windows.Forms.TabPage();
             this.getPosAx2 = new System.Windows.Forms.Button();
             this.getPosAx1 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPageSine = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.rampFSetAx2Text = new System.Windows.Forms.TextBox();
             this.rampASetAx2Text = new System.Windows.Forms.TextBox();
@@ -82,13 +82,13 @@
             this.label8 = new System.Windows.Forms.Label();
             this.statusGetAx1Text = new System.Windows.Forms.TextBox();
             this.posGetAx1Text = new System.Windows.Forms.TextBox();
-            this.textBox17 = new System.Windows.Forms.TextBox();
-            this.textBox18 = new System.Windows.Forms.TextBox();
+            this.rateGetAx1Text = new System.Windows.Forms.TextBox();
+            this.accGetAx1Text = new System.Windows.Forms.TextBox();
             this.statusGetAx2Text = new System.Windows.Forms.TextBox();
             this.posGetAx2Text = new System.Windows.Forms.TextBox();
-            this.textBox21 = new System.Windows.Forms.TextBox();
-            this.textBox22 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.rateGetAx2Text = new System.Windows.Forms.TextBox();
+            this.accGetAx2Text = new System.Windows.Forms.TextBox();
+            this.alarmBtn = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
@@ -109,11 +109,12 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.button10 = new System.Windows.Forms.Button();
             this.timer = new System.Windows.Forms.Timer(this.components);
+            this.timerAlarm = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.tabPagePos.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            this.tabPageSine.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -126,6 +127,8 @@
             this.posSetAx1Text.Name = "posSetAx1Text";
             this.posSetAx1Text.Size = new System.Drawing.Size(100, 20);
             this.posSetAx1Text.TabIndex = 0;
+            this.posSetAx1Text.Text = "0.0000";
+            this.posSetAx1Text.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // rateSetAx1Text
             // 
@@ -133,6 +136,8 @@
             this.rateSetAx1Text.Name = "rateSetAx1Text";
             this.rateSetAx1Text.Size = new System.Drawing.Size(100, 20);
             this.rateSetAx1Text.TabIndex = 1;
+            this.rateSetAx1Text.Text = "10";
+            this.rateSetAx1Text.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // posSetAx2Text
             // 
@@ -140,6 +145,8 @@
             this.posSetAx2Text.Name = "posSetAx2Text";
             this.posSetAx2Text.Size = new System.Drawing.Size(100, 20);
             this.posSetAx2Text.TabIndex = 2;
+            this.posSetAx2Text.Text = "0.0000";
+            this.posSetAx2Text.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // rateSetAx2Text
             // 
@@ -147,6 +154,8 @@
             this.rateSetAx2Text.Name = "rateSetAx2Text";
             this.rateSetAx2Text.Size = new System.Drawing.Size(100, 20);
             this.rateSetAx2Text.TabIndex = 3;
+            this.rateSetAx2Text.Text = "10";
+            this.rateSetAx2Text.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // amplSetAx1Text
             // 
@@ -154,6 +163,8 @@
             this.amplSetAx1Text.Name = "amplSetAx1Text";
             this.amplSetAx1Text.Size = new System.Drawing.Size(100, 20);
             this.amplSetAx1Text.TabIndex = 4;
+            this.amplSetAx1Text.Text = "0";
+            this.amplSetAx1Text.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // freqSetAx1Text
             // 
@@ -161,6 +172,8 @@
             this.freqSetAx1Text.Name = "freqSetAx1Text";
             this.freqSetAx1Text.Size = new System.Drawing.Size(100, 20);
             this.freqSetAx1Text.TabIndex = 5;
+            this.freqSetAx1Text.Text = "0.0";
+            this.freqSetAx1Text.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // freqSetAx2Text
             // 
@@ -168,6 +181,8 @@
             this.freqSetAx2Text.Name = "freqSetAx2Text";
             this.freqSetAx2Text.Size = new System.Drawing.Size(100, 20);
             this.freqSetAx2Text.TabIndex = 6;
+            this.freqSetAx2Text.Text = "0.0";
+            this.freqSetAx2Text.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // phaseSetAx2Text
             // 
@@ -175,6 +190,8 @@
             this.phaseSetAx2Text.Name = "phaseSetAx2Text";
             this.phaseSetAx2Text.Size = new System.Drawing.Size(100, 20);
             this.phaseSetAx2Text.TabIndex = 7;
+            this.phaseSetAx2Text.Text = "0";
+            this.phaseSetAx2Text.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // phaseSetAx1Text
             // 
@@ -182,6 +199,8 @@
             this.phaseSetAx1Text.Name = "phaseSetAx1Text";
             this.phaseSetAx1Text.Size = new System.Drawing.Size(100, 20);
             this.phaseSetAx1Text.TabIndex = 8;
+            this.phaseSetAx1Text.Text = "0";
+            this.phaseSetAx1Text.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // rampASetAx1Text
             // 
@@ -189,6 +208,8 @@
             this.rampASetAx1Text.Name = "rampASetAx1Text";
             this.rampASetAx1Text.Size = new System.Drawing.Size(100, 20);
             this.rampASetAx1Text.TabIndex = 9;
+            this.rampASetAx1Text.Text = "10";
+            this.rampASetAx1Text.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // rampFSetAx1Text
             // 
@@ -196,6 +217,8 @@
             this.rampFSetAx1Text.Name = "rampFSetAx1Text";
             this.rampFSetAx1Text.Size = new System.Drawing.Size(100, 20);
             this.rampFSetAx1Text.TabIndex = 10;
+            this.rampFSetAx1Text.Text = "10";
+            this.rampFSetAx1Text.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // amplSetAx2Text
             // 
@@ -203,6 +226,8 @@
             this.amplSetAx2Text.Name = "amplSetAx2Text";
             this.amplSetAx2Text.Size = new System.Drawing.Size(100, 20);
             this.amplSetAx2Text.TabIndex = 11;
+            this.amplSetAx2Text.Text = "0";
+            this.amplSetAx2Text.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // startAx1Btn
             // 
@@ -212,6 +237,7 @@
             this.startAx1Btn.TabIndex = 12;
             this.startAx1Btn.Text = "Start";
             this.startAx1Btn.UseVisualStyleBackColor = true;
+            this.startAx1Btn.Click += new System.EventHandler(this.startAx1Btn_Click);
             // 
             // stopAx1Btn
             // 
@@ -221,15 +247,17 @@
             this.stopAx1Btn.TabIndex = 13;
             this.stopAx1Btn.Text = "Stop";
             this.stopAx1Btn.UseVisualStyleBackColor = true;
+            this.stopAx1Btn.Click += new System.EventHandler(this.stopAx1Btn_Click);
             // 
             // servoAx1Btn
             // 
+            this.servoAx1Btn.BackColor = System.Drawing.Color.Red;
             this.servoAx1Btn.Location = new System.Drawing.Point(12, 455);
             this.servoAx1Btn.Name = "servoAx1Btn";
             this.servoAx1Btn.Size = new System.Drawing.Size(212, 33);
             this.servoAx1Btn.TabIndex = 14;
             this.servoAx1Btn.Text = "Servo ON";
-            this.servoAx1Btn.UseVisualStyleBackColor = true;
+            this.servoAx1Btn.UseVisualStyleBackColor = false;
             this.servoAx1Btn.Click += new System.EventHandler(this.servoAx1Btn_Click);
             // 
             // startAx2Btn
@@ -240,6 +268,7 @@
             this.startAx2Btn.TabIndex = 15;
             this.startAx2Btn.Text = "Start";
             this.startAx2Btn.UseVisualStyleBackColor = true;
+            this.startAx2Btn.Click += new System.EventHandler(this.startAx2Btn_Click);
             // 
             // stopAx2Btn
             // 
@@ -249,15 +278,18 @@
             this.stopAx2Btn.TabIndex = 16;
             this.stopAx2Btn.Text = "Stop";
             this.stopAx2Btn.UseVisualStyleBackColor = true;
+            this.stopAx2Btn.Click += new System.EventHandler(this.stopAx2Btn_Click);
             // 
             // servoAx2Btn
             // 
+            this.servoAx2Btn.BackColor = System.Drawing.Color.Red;
             this.servoAx2Btn.Location = new System.Drawing.Point(230, 455);
             this.servoAx2Btn.Name = "servoAx2Btn";
             this.servoAx2Btn.Size = new System.Drawing.Size(215, 33);
             this.servoAx2Btn.TabIndex = 17;
             this.servoAx2Btn.Text = "Servo ON";
-            this.servoAx2Btn.UseVisualStyleBackColor = true;
+            this.servoAx2Btn.UseVisualStyleBackColor = false;
+            this.servoAx2Btn.Click += new System.EventHandler(this.servoAx2Btn_Click);
             // 
             // posAx1
             // 
@@ -369,46 +401,50 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPagePos);
+            this.tabControl1.Controls.Add(this.tabPageSine);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(433, 188);
             this.tabControl1.TabIndex = 30;
             // 
-            // tabPage1
+            // tabPagePos
             // 
-            this.tabPage1.Controls.Add(this.getPosAx2);
-            this.tabPage1.Controls.Add(this.getPosAx1);
-            this.tabPage1.Controls.Add(this.groupBox2);
-            this.tabPage1.Controls.Add(this.groupBox1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(425, 162);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Position";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.tabPagePos.Controls.Add(this.getPosAx2);
+            this.tabPagePos.Controls.Add(this.getPosAx1);
+            this.tabPagePos.Controls.Add(this.groupBox2);
+            this.tabPagePos.Controls.Add(this.groupBox1);
+            this.tabPagePos.Location = new System.Drawing.Point(4, 22);
+            this.tabPagePos.Name = "tabPagePos";
+            this.tabPagePos.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPagePos.Size = new System.Drawing.Size(425, 162);
+            this.tabPagePos.TabIndex = 0;
+            this.tabPagePos.Text = "Position";
+            this.tabPagePos.UseVisualStyleBackColor = true;
             // 
             // getPosAx2
             // 
+            this.getPosAx2.Enabled = false;
             this.getPosAx2.Location = new System.Drawing.Point(214, 112);
             this.getPosAx2.Name = "getPosAx2";
             this.getPosAx2.Size = new System.Drawing.Size(205, 43);
             this.getPosAx2.TabIndex = 23;
             this.getPosAx2.Text = "Запрос положения AXIS 2";
             this.getPosAx2.UseVisualStyleBackColor = true;
+            this.getPosAx2.Visible = false;
             this.getPosAx2.Click += new System.EventHandler(this.getPosAx2_Click);
             // 
             // getPosAx1
             // 
+            this.getPosAx1.Enabled = false;
             this.getPosAx1.Location = new System.Drawing.Point(6, 112);
             this.getPosAx1.Name = "getPosAx1";
             this.getPosAx1.Size = new System.Drawing.Size(202, 43);
             this.getPosAx1.TabIndex = 22;
             this.getPosAx1.Text = "Запрос положения AXIS 1";
             this.getPosAx1.UseVisualStyleBackColor = true;
+            this.getPosAx1.Visible = false;
             this.getPosAx1.Click += new System.EventHandler(this.getPosAx1_Click);
             // 
             // groupBox2
@@ -437,17 +473,17 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "                           AXIS 1";
             // 
-            // tabPage2
+            // tabPageSine
             // 
-            this.tabPage2.Controls.Add(this.groupBox4);
-            this.tabPage2.Controls.Add(this.groupBox3);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(425, 162);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Sine";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabPageSine.Controls.Add(this.groupBox4);
+            this.tabPageSine.Controls.Add(this.groupBox3);
+            this.tabPageSine.Location = new System.Drawing.Point(4, 22);
+            this.tabPageSine.Name = "tabPageSine";
+            this.tabPageSine.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageSine.Size = new System.Drawing.Size(425, 162);
+            this.tabPageSine.TabIndex = 1;
+            this.tabPageSine.Text = "Sine";
+            this.tabPageSine.UseVisualStyleBackColor = true;
             // 
             // groupBox4
             // 
@@ -474,6 +510,8 @@
             this.rampFSetAx2Text.Name = "rampFSetAx2Text";
             this.rampFSetAx2Text.Size = new System.Drawing.Size(100, 20);
             this.rampFSetAx2Text.TabIndex = 33;
+            this.rampFSetAx2Text.Text = "10";
+            this.rampFSetAx2Text.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // rampASetAx2Text
             // 
@@ -481,6 +519,8 @@
             this.rampASetAx2Text.Name = "rampASetAx2Text";
             this.rampASetAx2Text.Size = new System.Drawing.Size(100, 20);
             this.rampASetAx2Text.TabIndex = 32;
+            this.rampASetAx2Text.Text = "10";
+            this.rampASetAx2Text.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // RamFAx2Lb
             // 
@@ -533,27 +573,27 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(13, 266);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(72, 13);
+            this.label2.Size = new System.Drawing.Size(71, 13);
             this.label2.TabIndex = 32;
-            this.label2.Text = "Pos obs (deg)";
+            this.label2.Text = "Position (deg)";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(13, 308);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(36, 13);
+            this.label3.Size = new System.Drawing.Size(67, 13);
             this.label3.TabIndex = 33;
-            this.label3.Text = "Frame";
+            this.label3.Text = "Rate (deg/s)";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(13, 347);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(34, 13);
+            this.label4.Size = new System.Drawing.Size(115, 13);
             this.label4.TabIndex = 34;
-            this.label4.Text = "Noise";
+            this.label4.Text = "Acceleration (deg/s^2)";
             // 
             // label5
             // 
@@ -569,27 +609,27 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(227, 266);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(68, 13);
+            this.label6.Size = new System.Drawing.Size(71, 13);
             this.label6.TabIndex = 36;
-            this.label6.Text = "Pos util (deg)";
+            this.label6.Text = "Position (deg)";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(227, 308);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(78, 13);
+            this.label7.Size = new System.Drawing.Size(67, 13);
             this.label7.TabIndex = 37;
-            this.label7.Text = "Vit Obs (deg/s)";
+            this.label7.Text = "Rate (deg/s)";
             // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(227, 347);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(87, 13);
+            this.label8.Size = new System.Drawing.Size(115, 13);
             this.label8.TabIndex = 38;
-            this.label8.Text = "R(cos^2 + sin^2)";
+            this.label8.Text = "Acceleration (deg/s^2)";
             // 
             // statusGetAx1Text
             // 
@@ -598,6 +638,7 @@
             this.statusGetAx1Text.ReadOnly = true;
             this.statusGetAx1Text.Size = new System.Drawing.Size(212, 20);
             this.statusGetAx1Text.TabIndex = 39;
+            this.statusGetAx1Text.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // posGetAx1Text
             // 
@@ -606,22 +647,25 @@
             this.posGetAx1Text.ReadOnly = true;
             this.posGetAx1Text.Size = new System.Drawing.Size(212, 20);
             this.posGetAx1Text.TabIndex = 40;
+            this.posGetAx1Text.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // textBox17
+            // rateGetAx1Text
             // 
-            this.textBox17.Location = new System.Drawing.Point(12, 324);
-            this.textBox17.Name = "textBox17";
-            this.textBox17.ReadOnly = true;
-            this.textBox17.Size = new System.Drawing.Size(212, 20);
-            this.textBox17.TabIndex = 41;
+            this.rateGetAx1Text.Location = new System.Drawing.Point(12, 324);
+            this.rateGetAx1Text.Name = "rateGetAx1Text";
+            this.rateGetAx1Text.ReadOnly = true;
+            this.rateGetAx1Text.Size = new System.Drawing.Size(212, 20);
+            this.rateGetAx1Text.TabIndex = 41;
+            this.rateGetAx1Text.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // textBox18
+            // accGetAx1Text
             // 
-            this.textBox18.Location = new System.Drawing.Point(12, 363);
-            this.textBox18.Name = "textBox18";
-            this.textBox18.ReadOnly = true;
-            this.textBox18.Size = new System.Drawing.Size(212, 20);
-            this.textBox18.TabIndex = 42;
+            this.accGetAx1Text.Location = new System.Drawing.Point(12, 363);
+            this.accGetAx1Text.Name = "accGetAx1Text";
+            this.accGetAx1Text.ReadOnly = true;
+            this.accGetAx1Text.Size = new System.Drawing.Size(212, 20);
+            this.accGetAx1Text.TabIndex = 42;
+            this.accGetAx1Text.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // statusGetAx2Text
             // 
@@ -630,6 +674,7 @@
             this.statusGetAx2Text.ReadOnly = true;
             this.statusGetAx2Text.Size = new System.Drawing.Size(215, 20);
             this.statusGetAx2Text.TabIndex = 43;
+            this.statusGetAx2Text.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // posGetAx2Text
             // 
@@ -638,31 +683,37 @@
             this.posGetAx2Text.ReadOnly = true;
             this.posGetAx2Text.Size = new System.Drawing.Size(215, 20);
             this.posGetAx2Text.TabIndex = 44;
+            this.posGetAx2Text.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // textBox21
+            // rateGetAx2Text
             // 
-            this.textBox21.Location = new System.Drawing.Point(230, 324);
-            this.textBox21.Name = "textBox21";
-            this.textBox21.ReadOnly = true;
-            this.textBox21.Size = new System.Drawing.Size(215, 20);
-            this.textBox21.TabIndex = 45;
+            this.rateGetAx2Text.Location = new System.Drawing.Point(230, 324);
+            this.rateGetAx2Text.Name = "rateGetAx2Text";
+            this.rateGetAx2Text.ReadOnly = true;
+            this.rateGetAx2Text.Size = new System.Drawing.Size(215, 20);
+            this.rateGetAx2Text.TabIndex = 45;
+            this.rateGetAx2Text.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // textBox22
+            // accGetAx2Text
             // 
-            this.textBox22.Location = new System.Drawing.Point(230, 363);
-            this.textBox22.Name = "textBox22";
-            this.textBox22.ReadOnly = true;
-            this.textBox22.Size = new System.Drawing.Size(215, 20);
-            this.textBox22.TabIndex = 46;
+            this.accGetAx2Text.Location = new System.Drawing.Point(230, 363);
+            this.accGetAx2Text.Name = "accGetAx2Text";
+            this.accGetAx2Text.ReadOnly = true;
+            this.accGetAx2Text.Size = new System.Drawing.Size(215, 20);
+            this.accGetAx2Text.TabIndex = 46;
+            this.accGetAx2Text.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // button1
+            // alarmBtn
             // 
-            this.button1.Location = new System.Drawing.Point(481, 34);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 47;
-            this.button1.Text = "Clear Alarm";
-            this.button1.UseVisualStyleBackColor = true;
+            this.alarmBtn.Enabled = false;
+            this.alarmBtn.Location = new System.Drawing.Point(481, 284);
+            this.alarmBtn.Name = "alarmBtn";
+            this.alarmBtn.Size = new System.Drawing.Size(75, 23);
+            this.alarmBtn.TabIndex = 47;
+            this.alarmBtn.Text = "Clear Alarm";
+            this.alarmBtn.UseVisualStyleBackColor = true;
+            this.alarmBtn.Visible = false;
+            this.alarmBtn.Click += new System.EventHandler(this.AlarmBtn_Click);
             // 
             // button2
             // 
@@ -740,38 +791,46 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(575, 39);
+            this.label9.Enabled = false;
+            this.label9.Location = new System.Drawing.Point(575, 289);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(26, 13);
             this.label9.TabIndex = 56;
             this.label9.Text = "Prof";
+            this.label9.Visible = false;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(629, 39);
+            this.label10.Enabled = false;
+            this.label10.Location = new System.Drawing.Point(629, 289);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(31, 13);
             this.label10.TabIndex = 57;
             this.label10.Text = "AXIS";
+            this.label10.Visible = false;
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(692, 40);
+            this.label11.Enabled = false;
+            this.label11.Location = new System.Drawing.Point(692, 290);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(33, 13);
             this.label11.TabIndex = 58;
             this.label11.Text = "Mast.";
+            this.label11.Visible = false;
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(753, 39);
+            this.label12.Enabled = false;
+            this.label12.Location = new System.Drawing.Point(753, 289);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(29, 13);
             this.label12.TabIndex = 59;
             this.label12.Text = "DSP";
+            this.label12.Visible = false;
             // 
             // label13
             // 
@@ -798,11 +857,13 @@
             this.groupBox5.Controls.Add(this.label13);
             this.groupBox5.Controls.Add(this.button4);
             this.groupBox5.Controls.Add(this.button8);
-            this.groupBox5.Location = new System.Drawing.Point(490, 63);
+            this.groupBox5.Enabled = false;
+            this.groupBox5.Location = new System.Drawing.Point(490, 313);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(319, 44);
             this.groupBox5.TabIndex = 62;
             this.groupBox5.TabStop = false;
+            this.groupBox5.Visible = false;
             // 
             // groupBox6
             // 
@@ -811,15 +872,17 @@
             this.groupBox6.Controls.Add(this.button6);
             this.groupBox6.Controls.Add(this.button7);
             this.groupBox6.Controls.Add(this.button9);
-            this.groupBox6.Location = new System.Drawing.Point(490, 113);
+            this.groupBox6.Enabled = false;
+            this.groupBox6.Location = new System.Drawing.Point(490, 363);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(319, 43);
             this.groupBox6.TabIndex = 63;
             this.groupBox6.TabStop = false;
+            this.groupBox6.Visible = false;
             // 
             // connectBtn
             // 
-            this.connectBtn.Location = new System.Drawing.Point(490, 177);
+            this.connectBtn.Location = new System.Drawing.Point(458, 12);
             this.connectBtn.Name = "connectBtn";
             this.connectBtn.Size = new System.Drawing.Size(98, 86);
             this.connectBtn.TabIndex = 64;
@@ -829,25 +892,34 @@
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(603, 177);
+            this.richTextBox1.Location = new System.Drawing.Point(571, 12);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(206, 206);
             this.richTextBox1.TabIndex = 65;
             this.richTextBox1.Text = "";
+            this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
             // 
             // button10
             // 
-            this.button10.Location = new System.Drawing.Point(921, 365);
+            this.button10.Enabled = false;
+            this.button10.Location = new System.Drawing.Point(490, 412);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(71, 41);
             this.button10.TabIndex = 66;
-            this.button10.Text = "тест команд";
+            this.button10.Text = "Вкл\\Выкл таймера ";
             this.button10.UseVisualStyleBackColor = true;
+            this.button10.Visible = false;
             this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
             // timer
             // 
+            this.timer.Interval = 500;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            // 
+            // timerAlarm
+            // 
+            this.timerAlarm.Interval = 20000;
+            this.timerAlarm.Tick += new System.EventHandler(this.timerAlarm_Tick);
             // 
             // Form1
             // 
@@ -863,13 +935,13 @@
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox22);
-            this.Controls.Add(this.textBox21);
+            this.Controls.Add(this.alarmBtn);
+            this.Controls.Add(this.accGetAx2Text);
+            this.Controls.Add(this.rateGetAx2Text);
             this.Controls.Add(this.posGetAx2Text);
             this.Controls.Add(this.statusGetAx2Text);
-            this.Controls.Add(this.textBox18);
-            this.Controls.Add(this.textBox17);
+            this.Controls.Add(this.accGetAx1Text);
+            this.Controls.Add(this.rateGetAx1Text);
             this.Controls.Add(this.posGetAx1Text);
             this.Controls.Add(this.statusGetAx1Text);
             this.Controls.Add(this.label8);
@@ -891,12 +963,12 @@
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
+            this.tabPagePos.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
+            this.tabPageSine.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -943,10 +1015,10 @@
         private System.Windows.Forms.Label FreqAx2Lb;
         private System.Windows.Forms.Label PhaseAx2Lb;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPagePos;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabPageSine;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.TextBox rampFSetAx2Text;
         private System.Windows.Forms.TextBox rampASetAx2Text;
@@ -963,13 +1035,13 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox statusGetAx1Text;
         private System.Windows.Forms.TextBox posGetAx1Text;
-        private System.Windows.Forms.TextBox textBox17;
-        private System.Windows.Forms.TextBox textBox18;
+        private System.Windows.Forms.TextBox rateGetAx1Text;
+        private System.Windows.Forms.TextBox accGetAx1Text;
         private System.Windows.Forms.TextBox statusGetAx2Text;
         private System.Windows.Forms.TextBox posGetAx2Text;
-        private System.Windows.Forms.TextBox textBox21;
-        private System.Windows.Forms.TextBox textBox22;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox rateGetAx2Text;
+        private System.Windows.Forms.TextBox accGetAx2Text;
+        private System.Windows.Forms.Button alarmBtn;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
@@ -992,6 +1064,7 @@
         private System.Windows.Forms.Button getPosAx1;
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.Timer timer;
+        private System.Windows.Forms.Timer timerAlarm;
     }
 }
 
