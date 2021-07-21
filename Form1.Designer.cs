@@ -425,22 +425,26 @@
             // 
             // getPosAx2
             // 
+            this.getPosAx2.Enabled = false;
             this.getPosAx2.Location = new System.Drawing.Point(214, 112);
             this.getPosAx2.Name = "getPosAx2";
             this.getPosAx2.Size = new System.Drawing.Size(205, 43);
             this.getPosAx2.TabIndex = 23;
             this.getPosAx2.Text = "Запрос положения AXIS 2";
             this.getPosAx2.UseVisualStyleBackColor = true;
+            this.getPosAx2.Visible = false;
             this.getPosAx2.Click += new System.EventHandler(this.getPosAx2_Click);
             // 
             // getPosAx1
             // 
+            this.getPosAx1.Enabled = false;
             this.getPosAx1.Location = new System.Drawing.Point(6, 112);
             this.getPosAx1.Name = "getPosAx1";
             this.getPosAx1.Size = new System.Drawing.Size(202, 43);
             this.getPosAx1.TabIndex = 22;
             this.getPosAx1.Text = "Запрос положения AXIS 1";
             this.getPosAx1.UseVisualStyleBackColor = true;
+            this.getPosAx1.Visible = false;
             this.getPosAx1.Click += new System.EventHandler(this.getPosAx1_Click);
             // 
             // groupBox2
@@ -701,12 +705,14 @@
             // 
             // alarmBtn
             // 
-            this.alarmBtn.Location = new System.Drawing.Point(481, 34);
+            this.alarmBtn.Enabled = false;
+            this.alarmBtn.Location = new System.Drawing.Point(481, 284);
             this.alarmBtn.Name = "alarmBtn";
             this.alarmBtn.Size = new System.Drawing.Size(75, 23);
             this.alarmBtn.TabIndex = 47;
             this.alarmBtn.Text = "Clear Alarm";
             this.alarmBtn.UseVisualStyleBackColor = true;
+            this.alarmBtn.Visible = false;
             this.alarmBtn.Click += new System.EventHandler(this.AlarmBtn_Click);
             // 
             // button2
@@ -785,38 +791,46 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(575, 39);
+            this.label9.Enabled = false;
+            this.label9.Location = new System.Drawing.Point(575, 289);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(26, 13);
             this.label9.TabIndex = 56;
             this.label9.Text = "Prof";
+            this.label9.Visible = false;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(629, 39);
+            this.label10.Enabled = false;
+            this.label10.Location = new System.Drawing.Point(629, 289);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(31, 13);
             this.label10.TabIndex = 57;
             this.label10.Text = "AXIS";
+            this.label10.Visible = false;
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(692, 40);
+            this.label11.Enabled = false;
+            this.label11.Location = new System.Drawing.Point(692, 290);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(33, 13);
             this.label11.TabIndex = 58;
             this.label11.Text = "Mast.";
+            this.label11.Visible = false;
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(753, 39);
+            this.label12.Enabled = false;
+            this.label12.Location = new System.Drawing.Point(753, 289);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(29, 13);
             this.label12.TabIndex = 59;
             this.label12.Text = "DSP";
+            this.label12.Visible = false;
             // 
             // label13
             // 
@@ -843,11 +857,13 @@
             this.groupBox5.Controls.Add(this.label13);
             this.groupBox5.Controls.Add(this.button4);
             this.groupBox5.Controls.Add(this.button8);
-            this.groupBox5.Location = new System.Drawing.Point(490, 63);
+            this.groupBox5.Enabled = false;
+            this.groupBox5.Location = new System.Drawing.Point(490, 313);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(319, 44);
             this.groupBox5.TabIndex = 62;
             this.groupBox5.TabStop = false;
+            this.groupBox5.Visible = false;
             // 
             // groupBox6
             // 
@@ -856,15 +872,17 @@
             this.groupBox6.Controls.Add(this.button6);
             this.groupBox6.Controls.Add(this.button7);
             this.groupBox6.Controls.Add(this.button9);
-            this.groupBox6.Location = new System.Drawing.Point(490, 113);
+            this.groupBox6.Enabled = false;
+            this.groupBox6.Location = new System.Drawing.Point(490, 363);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(319, 43);
             this.groupBox6.TabIndex = 63;
             this.groupBox6.TabStop = false;
+            this.groupBox6.Visible = false;
             // 
             // connectBtn
             // 
-            this.connectBtn.Location = new System.Drawing.Point(490, 177);
+            this.connectBtn.Location = new System.Drawing.Point(458, 12);
             this.connectBtn.Name = "connectBtn";
             this.connectBtn.Size = new System.Drawing.Size(98, 86);
             this.connectBtn.TabIndex = 64;
@@ -874,20 +892,23 @@
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(603, 177);
+            this.richTextBox1.Location = new System.Drawing.Point(571, 12);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(206, 206);
             this.richTextBox1.TabIndex = 65;
             this.richTextBox1.Text = "";
+            this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
             // 
             // button10
             // 
-            this.button10.Location = new System.Drawing.Point(921, 365);
+            this.button10.Enabled = false;
+            this.button10.Location = new System.Drawing.Point(490, 412);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(71, 41);
             this.button10.TabIndex = 66;
             this.button10.Text = "Вкл\\Выкл таймера ";
             this.button10.UseVisualStyleBackColor = true;
+            this.button10.Visible = false;
             this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
             // timer

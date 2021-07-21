@@ -37,6 +37,21 @@ namespace ActidinController
                     richTextBox1.AppendText(actCmd.SendMessage("USR 0,?\n") + "\n");
                     richTextBox1.AppendText(actCmd.SendMessage("USR 0,1,1234\n") + "\n");
                     richTextBox1.AppendText(actCmd.SendMessage("USR 0,?\n") + "\n");
+                    richTextBox1.AppendText(actCmd.SendMessage("ALC 0\n") + "\n");
+
+                    timer.Enabled = true;
+                    timerAlarm.Enabled = true;
+
+                    /*if (timer.Enabled)
+                    {
+                        timer.Enabled = false;
+                        timerAlarm.Enabled = false;
+                    }
+                    else
+                    {
+                        timer.Enabled = true;
+                        timerAlarm.Enabled = true;
+                    }*/
                     /* richTextBox1.Text = actCmd.SendMessage("RMT 0\n")[0];
                        richTextBox1.Text = actCmd.SendMessage("USR 0,?\n")[0];
                        richTextBox1.Text = actCmd.SendMessage("USR 0,2,4321\n")[0];
@@ -180,7 +195,7 @@ namespace ActidinController
         private void stopAx1Btn_Click(object sender, EventArgs e)
         {
             actCmd.SendMessage("MOD 1,POS\n");
-            actCmd.SendMessage($"POS 1,{posGetAx1Text.Text},10");
+            actCmd.SendMessage($"POS 1,{posGetAx1Text.Text},10\n");
             actCmd.SendMessage("MOD 1,STP\n");
         }
 
@@ -241,87 +256,101 @@ namespace ActidinController
         private void QuietSelect (string quiet) // обработчик ответов от команд
         {
             string[] split = quiet.Split(',');
-
-            switch (split[0]+","+split[1])
+            try
             {
-                case "PRV 1,?\n":
-                    if ((int)char.GetNumericValue(split[2][split[2].Length - 1]) == 3)
-                    {
-                        posGetAx1Text.Text = split[3];
-                        rateGetAx1Text.Text = split[4];
-                        accGetAx1Text.Text = split[5];
-                    }
-                    else { richTextBox1.AppendText($"Ошибка ответа команды {split[0] + "," + split[1]} \n"); }
-                    break;
-                case "PRV 2,?\n":
-                    if((int)char.GetNumericValue(split[2][split[2].Length - 1]) == 3)
-                    {
-                        posGetAx2Text.Text = split[3];
-                        rateGetAx2Text.Text = split[4];
-                        accGetAx2Text.Text = split[5];
-                    }
-                    else { richTextBox1.AppendText($"Ошибка ответа команды {split[0] + "," + split[1]} \n"); }
-                    break;
-                case "MOD &,?\n":
-                    if((int)char.GetNumericValue(split[2][split[2].Length - 1]) == 2)
-                    {
-                        statusGetAx1Text.Text = split[3];
-                        statusGetAx2Text.Text = split[4];
-                    }
-                    else { richTextBox1.AppendText($"Ошибка ответа команды {split[0] + "," + split[1]} \n"); }
-                    break;
-                case "PRV &,?\n":
-                    if ((int)char.GetNumericValue(split[2][split[2].Length - 1]) == 6)
-                    {
-                        posGetAx1Text.Text = split[3];
-                        rateGetAx1Text.Text = split[4];
-                        accGetAx1Text.Text = split[5];
-                        posGetAx2Text.Text = split[6];
-                        rateGetAx2Text.Text = split[7];
-                        accGetAx2Text.Text = split[8];
-                    }
-                    else { richTextBox1.AppendText($"Ошибка ответа команды {split[0] + "," + split[1]} \n"); }
-                    break;
-                case "MOD &,?:PRV &,?\n":
-                    if((int)char.GetNumericValue(split[1][split[1].Length - 1]) == 8)
-                    {
-                        statusGetAx1Text.Text = split[2];
-                        statusGetAx2Text.Text = split[3];
-                        posGetAx1Text.Text = split[4];
-                        rateGetAx1Text.Text = split[5];
-                        accGetAx1Text.Text = split[6];
-                        posGetAx2Text.Text = split[7];
-                        rateGetAx2Text.Text = split[8];
-                        accGetAx2Text.Text = split[9];
-                    }
-                    else { richTextBox1.AppendText($"Ошибка ответа команды {split[0]} &\n"); }
-                    break;
-                case "FRZ &,?\n":
-                    if((int)char.GetNumericValue(split[2][split[2].Length - 1]) == 10)
-                    {
-                        posGetAx1Text.Text = split[5];
-                        rateGetAx1Text.Text = split[6];
-                        accGetAx1Text.Text = split[7];
-                        posGetAx2Text.Text = split[10];
-                        rateGetAx2Text.Text = split[11];
-                        accGetAx2Text.Text = split[12];
-                    }
-                    else { richTextBox1.AppendText($"Ошибка ответа команды {split[0]} &\n"); }
-                    break;
-                case "MOD &,?:FRZ &,?\n":
-                    if((int)char.GetNumericValue(split[1][split[1].Length - 1]) == 12)
-                    {
-                        statusGetAx1Text.Text = split[2];
-                        statusGetAx2Text.Text = split[3];
-                        posGetAx1Text.Text = split[6];
-                        rateGetAx1Text.Text = split[7];
-                        accGetAx1Text.Text = split[8];
-                        posGetAx2Text.Text = split[11];
-                        rateGetAx2Text.Text = split[12];
-                        accGetAx2Text.Text = split[13];
-                    }
-                    else { richTextBox1.AppendText($"Ошибка ответа команды {split[0]} &\n"); }
-                    break;
+                switch (split[0] + "," + split[1])
+                {
+                    /*case "USR 0,?\n":
+                        if ((int)char.GetNumericValue(split[2][split[2].Length - 1]) == 1 &&
+                            (int)char.GetNumericValue(split[3][1]) == 1)
+                        {
+                            richTextBox1.AppendText("Соединение установленно");
+                        }
+                        else { richTextBox1.AppendText($"Ошибка ответа команды {split[0] + "," + split[1]} \n"); }
+                        break;*/
+                    case "PRV 1,?\n":
+                        if ((int)char.GetNumericValue(split[2][split[2].Length - 1]) == 3)
+                        {
+                            posGetAx1Text.Text = split[3];
+                            rateGetAx1Text.Text = split[4];
+                            accGetAx1Text.Text = split[5];
+                        }
+                        else { richTextBox1.AppendText($"Ошибка ответа команды {split[0] + "," + split[1]} \n"); }
+                        break;
+                    case "PRV 2,?\n":
+                        if ((int)char.GetNumericValue(split[2][split[2].Length - 1]) == 3)
+                        {
+                            posGetAx2Text.Text = split[3];
+                            rateGetAx2Text.Text = split[4];
+                            accGetAx2Text.Text = split[5];
+                        }
+                        else { richTextBox1.AppendText($"Ошибка ответа команды {split[0] + "," + split[1]} \n"); }
+                        break;
+                    case "MOD &,?\n":
+                        if ((int)char.GetNumericValue(split[2][split[2].Length - 1]) == 2)
+                        {
+                            statusGetAx1Text.Text = split[3];
+                            statusGetAx2Text.Text = split[4];
+                        }
+                        else { richTextBox1.AppendText($"Ошибка ответа команды {split[0] + "," + split[1]} \n"); }
+                        break;
+                    case "PRV &,?\n":
+                        if ((int)char.GetNumericValue(split[2][split[2].Length - 1]) == 6)
+                        {
+                            posGetAx1Text.Text = split[3];
+                            rateGetAx1Text.Text = split[4];
+                            accGetAx1Text.Text = split[5];
+                            posGetAx2Text.Text = split[6];
+                            rateGetAx2Text.Text = split[7];
+                            accGetAx2Text.Text = split[8];
+                        }
+                        else { richTextBox1.AppendText($"Ошибка ответа команды {split[0] + "," + split[1]} \n"); }
+                        break;
+                    case "MOD &,?:PRV &,?\n":
+                        if ((int)char.GetNumericValue(split[1][split[1].Length - 1]) == 8)
+                        {
+                            statusGetAx1Text.Text = split[2];
+                            statusGetAx2Text.Text = split[3];
+                            posGetAx1Text.Text = split[4];
+                            rateGetAx1Text.Text = split[5];
+                            accGetAx1Text.Text = split[6];
+                            posGetAx2Text.Text = split[7];
+                            rateGetAx2Text.Text = split[8];
+                            accGetAx2Text.Text = split[9];
+                        }
+                        else { richTextBox1.AppendText($"Ошибка ответа команды {split[0]} &\n"); }
+                        break;
+                    case "FRZ &,?\n":
+                        if ((int)char.GetNumericValue(split[2][split[2].Length - 1]) == 10)
+                        {
+                            posGetAx1Text.Text = split[5];
+                            rateGetAx1Text.Text = split[6];
+                            accGetAx1Text.Text = split[7];
+                            posGetAx2Text.Text = split[10];
+                            rateGetAx2Text.Text = split[11];
+                            accGetAx2Text.Text = split[12];
+                        }
+                        else { richTextBox1.AppendText($"Ошибка ответа команды {split[0]} &\n"); }
+                        break;
+                    case "MOD &,?:FRZ &,?\n":
+                        if ((int)char.GetNumericValue(split[1][split[1].Length - 1]) == 12)
+                        {
+                            statusGetAx1Text.Text = split[2];
+                            statusGetAx2Text.Text = split[3];
+                            posGetAx1Text.Text = split[6];
+                            rateGetAx1Text.Text = split[7];
+                            accGetAx1Text.Text = split[8];
+                            posGetAx2Text.Text = split[11];
+                            rateGetAx2Text.Text = split[12];
+                            accGetAx2Text.Text = split[13];
+                        }
+                        else { richTextBox1.AppendText($"Ошибка ответа команды {split[0]} &\n"); }
+                        break;
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка в обработчике ответов от команд.\nПерезапустите программу.");
             }
         }
 
@@ -363,6 +392,11 @@ namespace ActidinController
                                                                  //(если в течении 30сек не сбрасывать ошибки, то привод отключаеться)
         {
             actCmd.SendMessage("ALC 0\n");
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 
