@@ -18,6 +18,16 @@ namespace ActidinController
         ActidynCmd actCmd;// = new ActidynCmd("192.168.100.11", 62000);
         bool actidynConnect = false;
 
+        // ************************************** обработчики атрибутов движения *******************************************
+        string pAx1;
+        string pAx2;
+        string rAx1;
+        string rAx2;
+        string aAx1;
+        string aAx2;
+        string fAx1;
+        string fAx2;
+
         public Form1()
         {
             InitializeComponent();
@@ -41,58 +51,13 @@ namespace ActidinController
 
                     timer.Enabled = true;
                     timerAlarm.Enabled = true;
-
-                    /*if (timer.Enabled)
-                    {
-                        timer.Enabled = false;
-                        timerAlarm.Enabled = false;
-                    }
-                    else
-                    {
-                        timer.Enabled = true;
-                        timerAlarm.Enabled = true;
-                    }*/
-                    /* richTextBox1.Text = actCmd.SendMessage("RMT 0\n")[0];
-                       richTextBox1.Text = actCmd.SendMessage("USR 0,?\n")[0];
-                       richTextBox1.Text = actCmd.SendMessage("USR 0,2,4321\n")[0];
-                       richTextBox1.Text = actCmd.SendMessage("USR 0,?\n")[0];*/
-
                 }
                 else MessageBox.Show("Ошибка подключения к Actidyn");
-
-
-                /*actCmd.SendMessage("POS &,?\n");
-                actCmd.SendMessage("USR 0,?\n");
-                actCmd.SendMessage("USR 0,2,4321   \n");
-                actCmd.SendMessage("USR 0,?\n");
-                actCmd.SendMessage("ALC 0  \n");
-                actCmd.SendMessage("ALC 0");
-                actCmd.SendMessage("ALC 0          \n");
-                actCmd.SendMessage("ALC 0       \n");
-                actCmd.SendMessage("ALC 0        \n");
-                actCmd.SendMessage("ALC 0    \n");
-                actCmd.SendMessage("POS &,?\n");
-
-                //actCmd.SendMessage("ALC 0  \n");
-                actCmd.SendMessage("MOD 1,?\n");
-                actCmd.SendMessage("MOD &,1        \n");
-                actCmd.SendMessage("MOD &,1        \n");
-                actCmd.SendMessage("MOD 1,?\n");
-                actCmd.SendMessage("MOD 1,POS      \n");
-                actCmd.SendMessage("POS 1,45,5     \n");
-                actCmd.SendMessage("MOD &,OFF      \n");*/
-
-
             }
             catch (Exception ex)
             {
                 richTextBox1.Text ="connect error " + ex.Message;
             }
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void getPosAx1_Click(object sender, EventArgs e)
@@ -133,7 +98,7 @@ namespace ActidinController
             else { }
         }
 
-        private void button10_Click(object sender, EventArgs e) // Включение\Выключение таймера (временная кнопка)
+        private void button10_Click(object sender, EventArgs e) // Включение\Выключение таймера (неактивна)
         {
             if (timer.Enabled)
             {
@@ -147,62 +112,10 @@ namespace ActidinController
             }
         }
 
-
-
-        private void startAx1Btn_Click(object sender, EventArgs e)
-        {
-            if(tabControl1.SelectedIndex == 0) // движение позиционное
-            {
-                if(statusGetAx1Text.Text == " POS") { actCmd.SendMessage($"POS 1,{posSetAx1Text.Text},{rateSetAx1Text.Text}\n"); }
-                else
-                {
-                    actCmd.SendMessage("MOD 1,POS\n");
-                    actCmd.SendMessage($"POS 1,{posSetAx1Text.Text},{rateSetAx1Text.Text}\n");
-                }
-                 //actCmd.SendMessage($"MOD 1,POS:POS 1,{posSetAx1Text.Text},{rateSetAx1Text.Text}\n");
-                 /*actCmd.SendMessage($"POS 1,{posSetAx1Text.Text},{rateSetAx1Text.Text}\n");
-                actCmd.SendMessage("MOD 1,POS\n");*/
-
-                /*string posAx1 = posSetAx1Text.Text;
-                string rateAx1 = rateSetAx1Text.Text;
-                //actCmd.SendMessage($"MOD 1,POS:POS 1,{posAx1},{rateAx1}\n");
-                //actCmd.SendMessage("MOD 1,POS\n");
-                actCmd.SendMessage("MOD 1,POS:POS 1,110,10\n");
-                //actCmd.SendMessage($"POS 1,{posAx1},{rateAx1}\n"); */
-            }
-            else if(tabControl1.SelectedIndex == 1) // движение синусоидальное
-            {
-                if (statusGetAx1Text.Text == " SIN")
-                {
-                    actCmd.SendMessage($"RMS 1,{rampASetAx1Text.Text},{rampFSetAx1Text.Text}\n");
-                    actCmd.SendMessage($"SIN 1,{amplSetAx1Text.Text},{freqSetAx1Text.Text},{phaseSetAx1Text.Text}\n");
-                }
-                else
-                {
-                    actCmd.SendMessage("MOD 1,SIN\n");
-                    actCmd.SendMessage($"RMS 1,{rampASetAx1Text.Text},{rampFSetAx1Text.Text}\n");
-                    actCmd.SendMessage($"SIN 1,{amplSetAx1Text.Text},{freqSetAx1Text.Text},{phaseSetAx1Text.Text}\n");
-                }
-            }
-            else
-            {
-                actCmd.SendMessage("MOD 1,POS\n");
-                actCmd.SendMessage($"POS 1,{posGetAx1Text.Text},10");
-                actCmd.SendMessage("MOD 1,STP\n"); // стоп
-            }
-        }
-
-        private void stopAx1Btn_Click(object sender, EventArgs e)
-        {
-            actCmd.SendMessage("MOD 1,POS\n");
-            actCmd.SendMessage($"POS 1,{posGetAx1Text.Text},10\n");
-            actCmd.SendMessage("MOD 1,STP\n");
-        }
-
         private void servoAx1Btn_Click(object sender, EventArgs e) //Включение Привода 1
         {
             //if (!modOn1) // условие включает Сервопривод
-            if(statusGetAx1Text.Text == " OFF")
+            if (statusGetAx1Text.Text == " OFF")
             {
                 actCmd.SendMessage("MOD 1,1\n");
             }
@@ -210,35 +123,6 @@ namespace ActidinController
             {
                 actCmd.SendMessage("MOD 1,OFF\n");
             }
-        }
-
-        private void AlarmBtn_Click(object sender, EventArgs e)
-        {
-            richTextBox1.AppendText(actCmd.SendMessage("ALC 0\n")+"\n");
-        }
-
-        private void startAx2Btn_Click(object sender, EventArgs e)
-        {
-            if (tabPagePos.Focused)
-            {
-                actCmd.SendMessage("MOD 2,POS\n");
-                actCmd.SendMessage($"POS 2,{posSetAx1Text},{rateSetAx1Text}\n");
-            }
-            else if (tabPageSine.Focused)
-            {
-                actCmd.SendMessage("MOD 2,SIN\n");
-                actCmd.SendMessage($"RMS 2,{rampASetAx1Text},{rampFSetAx1Text}\n");
-                actCmd.SendMessage($"SIN 2,{amplSetAx1Text},{freqSetAx1Text},{phaseSetAx1Text}\n");
-            }
-            else
-            {
-                actCmd.SendMessage("MOD 2,STP\n");
-            }
-        }
-
-        private void stopAx2Btn_Click(object sender, EventArgs e)
-        {
-            actCmd.SendMessage("MOD 2,STP\n");
         }
 
         private void servoAx2Btn_Click(object sender, EventArgs e) //Включение Привода 2
@@ -252,6 +136,118 @@ namespace ActidinController
                 actCmd.SendMessage("MOD 2,OFF\n");
             }
         }
+
+        private void startAx1Btn_Click(object sender, EventArgs e)
+        {
+            if(tabControl1.SelectedIndex == 0) // движение позиционное
+            {
+                if(statusGetAx1Text.Text == " POS") { actCmd.SendMessage($"POS 1,{pAx1},{rAx1}\n"); }
+                else
+                {
+                    actCmd.SendMessage("MOD 1,POS\n");
+                    actCmd.SendMessage($"POS 1,{pAx1},{rAx1}\n");
+                }
+            }
+            else if(tabControl1.SelectedIndex == 1) // движение синусоидальное
+            {
+                if (statusGetAx1Text.Text == " SIN")
+                {
+                    actCmd.SendMessage($"RMS 1,{rampASetAx1Text.Text},{rampFSetAx1Text.Text}\n");
+                    actCmd.SendMessage($"SIN 1,{aAx1},{fAx1},{phaseSetAx1Text.Text}\n");
+                }
+                else
+                {
+                    actCmd.SendMessage("MOD 1,SIN\n");
+                    actCmd.SendMessage($"RMS 1,{rampASetAx1Text.Text},{rampFSetAx1Text.Text}\n");
+                    actCmd.SendMessage($"SIN 1,{aAx1},{fAx1},{phaseSetAx1Text.Text}\n");
+                }
+            }
+            else
+            {
+                actCmd.SendMessage("MOD 1,POS\n");
+                actCmd.SendMessage($"POS 1,{posGetAx1Text.Text},10\n");
+                actCmd.SendMessage("MOD 1,STP\n"); // стоп
+            }
+        }
+
+        private void startAx2Btn_Click(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedIndex == 0) // движение позиционное
+            {
+                if (statusGetAx2Text.Text == " POS") { actCmd.SendMessage($"POS 2,{pAx2},{rAx2}\n"); }
+                else
+                {
+                    actCmd.SendMessage("MOD 2,POS\n");
+                    actCmd.SendMessage($"POS 2,{pAx2},{rAx2}\n");
+                }
+            }
+            else if (tabControl1.SelectedIndex == 1) // движение синусоидальное
+            {
+                if (statusGetAx2Text.Text == " SIN")
+                {
+                    actCmd.SendMessage($"RMS 2,{rampASetAx2Text.Text},{rampFSetAx2Text.Text}\n");
+                    actCmd.SendMessage($"SIN 2,{aAx2},{fAx2},{phaseSetAx2Text.Text}\n");
+                }
+                else
+                {
+                    actCmd.SendMessage("MOD 2,SIN\n");
+                    actCmd.SendMessage($"RMS 2,{rampASetAx2Text.Text},{rampFSetAx2Text.Text}\n");
+                    actCmd.SendMessage($"SIN 2,{aAx2},{fAx2},{phaseSetAx2Text.Text}\n");
+                }
+            }
+            else
+            {
+                actCmd.SendMessage("MOD 2,POS\n");
+                actCmd.SendMessage($"POS 2,{posGetAx2Text.Text},5\n");
+                actCmd.SendMessage("MOD 2,STP\n"); // стоп
+            }
+
+            /* if (tabPagePos.Focused)
+             {
+                 actCmd.SendMessage("MOD 2,POS\n");
+                 actCmd.SendMessage($"POS 2,{posSetAx1Text},{rateSetAx1Text}\n");
+             }
+             else if (tabPageSine.Focused)
+             {
+                 actCmd.SendMessage("MOD 2,SIN\n");
+                 actCmd.SendMessage($"RMS 2,{rampASetAx1Text},{rampFSetAx1Text}\n");
+                 actCmd.SendMessage($"SIN 2,{amplSetAx1Text},{freqSetAx1Text},{phaseSetAx1Text}\n");
+             }
+             else
+             {
+                 actCmd.SendMessage("MOD 2,STP\n");
+             }*/
+        }
+
+        private void stopAx1Btn_Click(object sender, EventArgs e)
+        {
+            actCmd.SendMessage("MOD 1,POS\n"); // основной вариант
+            actCmd.SendMessage($"POS 1,{posGetAx1Text.Text},10\n");
+            actCmd.SendMessage("MOD 1,STP\n");
+
+            /*actCmd.SendMessage($"MOD 1,POS :POS 1,{posGetAx1Text.Text},10\n"); // второй вариант (проверить)
+            actCmd.SendMessage("MOD 1,STP\n");
+
+            actCmd.SendMessage("MOD 1,RAT\n"); // третий вариант (проверить)
+            actCmd.SendMessage("RAT 1,0,5\n");
+            actCmd.SendMessage("MOD 1,STP\n");*/
+
+        }
+
+        private void stopAx2Btn_Click(object sender, EventArgs e)
+        {
+            actCmd.SendMessage("MOD 2,POS\n");
+            actCmd.SendMessage($"POS 2,{posGetAx2Text.Text},5\n");
+            actCmd.SendMessage("MOD 2,STP\n");
+
+            //actCmd.SendMessage("MOD 2,STP\n"); 
+        }
+
+        private void AlarmBtn_Click(object sender, EventArgs e)
+        {
+            richTextBox1.AppendText(actCmd.SendMessage("ALC 0\n") + "\n");
+        }
+
 
         private void QuietSelect (string quiet) // обработчик ответов от команд
         {
@@ -386,6 +382,7 @@ namespace ActidinController
             // QuietSelect(actCmd.SendMessage("MOD &,?:FRZ &,?\n"));
             // QuietSelect(actCmd.SendMessage("MOD &,?:PRV &,?\n"));
             StatusGetAx();
+            ControlInputText();
         }
 
         private void timerAlarm_Tick(object sender, EventArgs e) // раз в 20 сек сбрасывает накопленные ошибки 
@@ -394,9 +391,27 @@ namespace ActidinController
             actCmd.SendMessage("ALC 0\n");
         }
 
-        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        private void ControlInputText()
         {
+            double countPos1 = Convert.ToDouble(posSetAx1Text.Text);
+            pAx1 = (countPos1 >= -380 && countPos1 <= 380) ? posSetAx1Text.Text : "0";
+            double countPos2 = Convert.ToDouble(posSetAx2Text.Text);
+            pAx2 = (countPos2 >= -50 && countPos2 <= 50) ? posSetAx2Text.Text : "0";
 
+            double countRate1 = Convert.ToDouble(rateSetAx1Text.Text);
+            rAx1 = (countRate1 >= 0 && countRate1 <= 50) ? rateSetAx1Text.Text : "0";
+            double countRate2 = Convert.ToDouble(rateSetAx2Text.Text);
+            rAx2 = (countRate2 >= 0 && countRate2 <= 50) ? rateSetAx2Text.Text : "0";
+
+            double countAmpl1 = Convert.ToDouble(amplSetAx1Text.Text);
+            aAx1 = (countAmpl1 >= 0 && countAmpl1 <= 180) ? amplSetAx1Text.Text : "0";
+            double countAmpl2 = Convert.ToDouble(amplSetAx2Text.Text);
+            aAx2 = (countAmpl2 >= 0 && countAmpl2 <= 180) ? amplSetAx2Text.Text : "0";
+
+            double countFreq1 = Convert.ToDouble(freqSetAx1Text.Text);
+            fAx1 = (countFreq1 >= 0 && countFreq1 <= 2) ? freqSetAx1Text.Text : "0";
+            double countFreq2 = Convert.ToDouble(freqSetAx2Text.Text);
+            fAx2 = (countFreq2 >= 0 && countFreq2 <= 2) ? freqSetAx2Text.Text : "0";
         }
     }
 
