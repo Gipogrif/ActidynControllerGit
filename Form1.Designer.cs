@@ -230,6 +230,7 @@
             this.servoAx1Btn.TabIndex = 14;
             this.servoAx1Btn.Text = "Servo ON";
             this.servoAx1Btn.UseVisualStyleBackColor = true;
+            this.servoAx1Btn.Click += new System.EventHandler(this.servoAx1Btn_Click);
             // 
             // startAx2Btn
             // 

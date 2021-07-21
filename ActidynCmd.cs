@@ -12,7 +12,7 @@ namespace ActidinController
     {
         IPEndPoint ipPoint;
         Socket socket;
-        public ActidynCmd(string address, int port)
+       /* public ActidynCmd(string address, int port)
         {
             try
             {
@@ -25,6 +25,24 @@ namespace ActidinController
             finally
             {
 
+            }
+
+        }*/
+
+        public int ActidynCmdConnect(string address, int port)
+        {
+            try
+            {
+                ipPoint = new IPEndPoint(IPAddress.Parse(address), port);
+
+                socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                // подключаемся к удаленному хосту
+                socket.Connect(ipPoint);
+                return 1;
+            }
+            catch
+            {
+                return -1;
             }
 
         }

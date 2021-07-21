@@ -15,7 +15,7 @@ namespace ActidinController
     public partial class Form1 : Form
     {
 
-        ActidynCmd actCmd = new ActidynCmd("192.168.100.11", 62000);
+        ActidynCmd actCmd; //= new ActidynCmd("192.168.100.11", 62000);
         public Form1()
         {
             InitializeComponent();
@@ -27,8 +27,16 @@ namespace ActidinController
         {
             try
             {
-
-                richTextBox1.Text = actCmd.SendMessage("RMT 0\n");
+                actCmd = new ActidynCmd();
+                if(actCmd.ActidynCmdConnect("192.168.100.11", 62000) == 1)
+                {
+                    richTextBox1.Text = actCmd.SendMessage("RMT 0\n");
+                }
+                else
+                {
+                    MessageBox.Show("Ошибка подключения к Actidyn");
+                }
+                
 
 
                 /*actCmd.SendMessage("POS &,?\n");
@@ -151,6 +159,11 @@ namespace ActidinController
         {
             posGetAx1Text.Text = actCmd.SendMessage("POS 1,?\n");
             posGetAx2Text.Text = actCmd.SendMessage("POS 2,?\n");
+        }
+
+        private void servoAx1Btn_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
