@@ -172,6 +172,72 @@ namespace ActidinController
             }
         }
 
+        public string CommandPosAxis1(string message)
+        {
+            try
+            {
+                byte[] data = Encoding.UTF8.GetBytes("MOD 1,POS\n");
+                socket.Send(data);
+
+                //Thread.Sleep(1);
+
+                data = Encoding.UTF8.GetBytes(message);
+                socket.Send(data);
+
+                Thread.Sleep(100);
+
+                // получаем ответ
+                byte[] buf = new byte[256]; // буфер для ответа
+                StringBuilder builder = new StringBuilder();
+                int bytes = 0; // количество полученных байт
+
+                while (socket.Available > 0)
+                {
+                    bytes = socket.Receive(buf, buf.Length, 0);
+                    builder.Append(Encoding.UTF8.GetString(buf, 0, bytes));
+                }
+                return message + "," + builder.ToString();
+                 
+            }
+            catch (Exception ex)
+            {
+                return "SendMessage error" + ex.Message;
+            }
+        }
+
+        public string CommandPosAxis2(string message)
+        {
+            try
+            {
+                byte[] data = Encoding.UTF8.GetBytes("MOD 2,POS\n");
+                socket.Send(data);
+
+                //Thread.Sleep(1);
+
+                data = Encoding.UTF8.GetBytes(message);
+                socket.Send(data);
+
+                Thread.Sleep(100);
+
+                // получаем ответ
+                byte[] buf = new byte[256]; // буфер для ответа
+                StringBuilder builder = new StringBuilder();
+                int bytes = 0; // количество полученных байт
+
+                while (socket.Available > 0)
+                {
+                    bytes = socket.Receive(buf, buf.Length, 0);
+                    builder.Append(Encoding.UTF8.GetString(buf, 0, bytes));
+                }
+                return message + "," + builder.ToString();
+
+            }
+            catch (Exception ex)
+            {
+                return "SendMessage error" + ex.Message;
+            }
+        }
+
         public void CloseSocket()
         {
             socket.Shutdown(SocketShutdown.Both);

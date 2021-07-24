@@ -139,13 +139,15 @@ namespace ActidinController
 
         private void startAx1Btn_Click(object sender, EventArgs e)
         {
-            if(tabControl1.SelectedIndex == 0) // движение позиционное
+            ControlInputText();
+            if (tabControl1.SelectedIndex == 0) // движение позиционное
             {
                 if(statusGetAx1Text.Text == " POS") { actCmd.SendMessage($"POS 1,{pAx1},{rAx1}\n"); }
                 else
                 {
-                    actCmd.SendMessage("MOD 1,POS\n");
-                    actCmd.SendMessage($"POS 1,{pAx1},{rAx1}\n");
+                    actCmd.CommandPosAxis1($"POS 1,{pAx1},{rAx1}\n");
+                    /*actCmd.SendMessage("MOD 1,POS\n");
+                    actCmd.SendMessage($"POS 1,{pAx1},{rAx1}\n");*/
                 }
             }
             else if(tabControl1.SelectedIndex == 1) // движение синусоидальное
@@ -172,13 +174,15 @@ namespace ActidinController
 
         private void startAx2Btn_Click(object sender, EventArgs e)
         {
+            ControlInputText();
             if (tabControl1.SelectedIndex == 0) // движение позиционное
             {
                 if (statusGetAx2Text.Text == " POS") { actCmd.SendMessage($"POS 2,{pAx2},{rAx2}\n"); }
                 else
                 {
-                    actCmd.SendMessage("MOD 2,POS\n");
-                    actCmd.SendMessage($"POS 2,{pAx2},{rAx2}\n");
+                    actCmd.CommandPosAxis2($"POS 2,{pAx2},{rAx2}\n");
+                    /*actCmd.SendMessage("MOD 2,POS\n");
+                    actCmd.SendMessage($"POS 2,{pAx2},{rAx2}\n");*/
                 }
             }
             else if (tabControl1.SelectedIndex == 1) // движение синусоидальное
@@ -221,26 +225,33 @@ namespace ActidinController
 
         private void stopAx1Btn_Click(object sender, EventArgs e)
         {
-            actCmd.SendMessage("MOD 1,POS\n"); // основной вариант
-            actCmd.SendMessage($"POS 1,{posGetAx1Text.Text},10\n");
+            /*actCmd.SendMessage("MOD 1,POS\n"); // основной вариант
+            actCmd.SendMessage($"POS 1,{posGetAx1Text.Text},10\n");*/
             actCmd.SendMessage("MOD 1,STP\n");
 
-            /*actCmd.SendMessage($"MOD 1,POS :POS 1,{posGetAx1Text.Text},10\n"); // второй вариант (проверить)
+            /*actCmd.SendMessage($"MOD 1,POS :POS 1,{posGetAx1Text.Text},1\n"); // второй вариант (проверить)
             actCmd.SendMessage("MOD 1,STP\n");
 
             actCmd.SendMessage("MOD 1,RAT\n"); // третий вариант (проверить)
-            actCmd.SendMessage("RAT 1,0,5\n");
+            actCmd.SendMessage("RAT 1,1,1\n");
             actCmd.SendMessage("MOD 1,STP\n");*/
 
         }
 
         private void stopAx2Btn_Click(object sender, EventArgs e)
         {
-            actCmd.SendMessage("MOD 2,POS\n");
-            actCmd.SendMessage($"POS 2,{posGetAx2Text.Text},5\n");
+            /*actCmd.SendMessage("MOD 2,POS\n");
+            actCmd.SendMessage($"POS 2,{posGetAx2Text.Text},1\n");
+            actCmd.SendMessage("MOD 2,STP\n");*/
+
+            /*actCmd.SendMessage($"MOD 2,POS :POS 2,{posGetAx2Text.Text},1\n"); // второй вариант (проверить)
             actCmd.SendMessage("MOD 2,STP\n");
 
-            //actCmd.SendMessage("MOD 2,STP\n"); 
+            actCmd.SendMessage("MOD 2,RAT\n"); // третий вариант (проверить)
+            actCmd.SendMessage("RAT 2,1,1\n");
+            actCmd.SendMessage("MOD 2,STP\n");*/
+
+            actCmd.SendMessage("MOD 2,STP\n"); 
         }
 
         private void AlarmBtn_Click(object sender, EventArgs e)
@@ -347,6 +358,8 @@ namespace ActidinController
             catch
             {
                 MessageBox.Show("Ошибка в обработчике ответов от команд.\nПерезапустите программу.");
+                timer.Enabled = false;
+                timerAlarm.Enabled = false;
             }
         }
 
@@ -382,7 +395,6 @@ namespace ActidinController
             // QuietSelect(actCmd.SendMessage("MOD &,?:FRZ &,?\n"));
             // QuietSelect(actCmd.SendMessage("MOD &,?:PRV &,?\n"));
             StatusGetAx();
-            ControlInputText();
         }
 
         private void timerAlarm_Tick(object sender, EventArgs e) // раз в 20 сек сбрасывает накопленные ошибки 
@@ -393,25 +405,25 @@ namespace ActidinController
 
         private void ControlInputText()
         {
-            double countPos1 = Convert.ToDouble(posSetAx1Text.Text);
-            pAx1 = (countPos1 >= -380 && countPos1 <= 380) ? posSetAx1Text.Text : "0";
-            double countPos2 = Convert.ToDouble(posSetAx2Text.Text);
-            pAx2 = (countPos2 >= -50 && countPos2 <= 50) ? posSetAx2Text.Text : "0";
+            double countPos1 = Convert.ToDouble(posSetAx1Text.Text.Replace('.',','));
+            pAx1 = (countPos1 >= -380 && countPos1 <= 380) ? posSetAx1Text.Text : "0.0";
+            double countPos2 = Convert.ToDouble(posSetAx2Text.Text.Replace('.', ','));
+            pAx2 = (countPos2 >= -50 && countPos2 <= 50) ? posSetAx2Text.Text : "0.0";
 
-            double countRate1 = Convert.ToDouble(rateSetAx1Text.Text);
-            rAx1 = (countRate1 >= 0 && countRate1 <= 50) ? rateSetAx1Text.Text : "0";
-            double countRate2 = Convert.ToDouble(rateSetAx2Text.Text);
-            rAx2 = (countRate2 >= 0 && countRate2 <= 50) ? rateSetAx2Text.Text : "0";
+            double countRate1 = Convert.ToDouble(rateSetAx1Text.Text.Replace('.', ','));
+            rAx1 = (countRate1 > 0 && countRate1 <= 50) ? rateSetAx1Text.Text : "1.0";
+            double countRate2 = Convert.ToDouble(rateSetAx2Text.Text.Replace('.', ','));
+            rAx2 = (countRate2 > 0 && countRate2 <= 50) ? rateSetAx2Text.Text : "1.0";
 
-            double countAmpl1 = Convert.ToDouble(amplSetAx1Text.Text);
-            aAx1 = (countAmpl1 >= 0 && countAmpl1 <= 180) ? amplSetAx1Text.Text : "0";
-            double countAmpl2 = Convert.ToDouble(amplSetAx2Text.Text);
-            aAx2 = (countAmpl2 >= 0 && countAmpl2 <= 180) ? amplSetAx2Text.Text : "0";
+            double countAmpl1 = Convert.ToDouble(amplSetAx1Text.Text.Replace('.', ','));
+            aAx1 = (countAmpl1 >= 0 && countAmpl1 <= 180) ? amplSetAx1Text.Text : "0.0";
+            double countAmpl2 = Convert.ToDouble(amplSetAx2Text.Text.Replace('.', ','));
+            aAx2 = (countAmpl2 >= 0 && countAmpl2 <= 180) ? amplSetAx2Text.Text : "0.0";
 
-            double countFreq1 = Convert.ToDouble(freqSetAx1Text.Text);
-            fAx1 = (countFreq1 >= 0 && countFreq1 <= 2) ? freqSetAx1Text.Text : "0";
-            double countFreq2 = Convert.ToDouble(freqSetAx2Text.Text);
-            fAx2 = (countFreq2 >= 0 && countFreq2 <= 2) ? freqSetAx2Text.Text : "0";
+            double countFreq1 = Convert.ToDouble(freqSetAx1Text.Text.Replace('.', ','));
+            fAx1 = (countFreq1 >= 0 && countFreq1 <= 2) ? freqSetAx1Text.Text : "0.0";
+            double countFreq2 = Convert.ToDouble(freqSetAx2Text.Text.Replace('.', ','));
+            fAx2 = (countFreq2 >= 0 && countFreq2 <= 2) ? freqSetAx2Text.Text : "0.0";
         }
     }
 
