@@ -27,13 +27,12 @@ namespace ActidinController
         string aAx2;
         string fAx1;
         string fAx2;
+        int stepCount = 0; // счётчик шагов при пошаговом автоматическом повороте
 
         public Form1()
         {
             InitializeComponent();
         }
-
-        
 
         private void connectBtn_Click(object sender, EventArgs e)
         {
@@ -114,7 +113,6 @@ namespace ActidinController
 
         private void servoAx1Btn_Click(object sender, EventArgs e) //Включение Привода 1
         {
-            //if (!modOn1) // условие включает Сервопривод
             if (statusGetAx1Text.Text == " OFF")
             {
                 actCmd.SendMessage("MOD 1,1\n");
@@ -146,8 +144,6 @@ namespace ActidinController
                 else
                 {
                     actCmd.CommandPosAxis1($"POS 1,{pAx1},{rAx1}\n");
-                    /*actCmd.SendMessage("MOD 1,POS\n");
-                    actCmd.SendMessage($"POS 1,{pAx1},{rAx1}\n");*/
                 }
             }
             else if(tabControl1.SelectedIndex == 1) // движение синусоидальное
@@ -181,8 +177,6 @@ namespace ActidinController
                 else
                 {
                     actCmd.CommandPosAxis2($"POS 2,{pAx2},{rAx2}\n");
-                    /*actCmd.SendMessage("MOD 2,POS\n");
-                    actCmd.SendMessage($"POS 2,{pAx2},{rAx2}\n");*/
                 }
             }
             else if (tabControl1.SelectedIndex == 1) // движение синусоидальное
@@ -205,52 +199,15 @@ namespace ActidinController
                 actCmd.SendMessage($"POS 2,{posGetAx2Text.Text},5\n");
                 actCmd.SendMessage("MOD 2,STP\n"); // стоп
             }
-
-            /* if (tabPagePos.Focused)
-             {
-                 actCmd.SendMessage("MOD 2,POS\n");
-                 actCmd.SendMessage($"POS 2,{posSetAx1Text},{rateSetAx1Text}\n");
-             }
-             else if (tabPageSine.Focused)
-             {
-                 actCmd.SendMessage("MOD 2,SIN\n");
-                 actCmd.SendMessage($"RMS 2,{rampASetAx1Text},{rampFSetAx1Text}\n");
-                 actCmd.SendMessage($"SIN 2,{amplSetAx1Text},{freqSetAx1Text},{phaseSetAx1Text}\n");
-             }
-             else
-             {
-                 actCmd.SendMessage("MOD 2,STP\n");
-             }*/
         }
 
         private void stopAx1Btn_Click(object sender, EventArgs e)
         {
-            /*actCmd.SendMessage("MOD 1,POS\n"); // основной вариант
-            actCmd.SendMessage($"POS 1,{posGetAx1Text.Text},10\n");*/
             actCmd.SendMessage("MOD 1,STP\n");
-
-            /*actCmd.SendMessage($"MOD 1,POS :POS 1,{posGetAx1Text.Text},1\n"); // второй вариант (проверить)
-            actCmd.SendMessage("MOD 1,STP\n");
-
-            actCmd.SendMessage("MOD 1,RAT\n"); // третий вариант (проверить)
-            actCmd.SendMessage("RAT 1,1,1\n");
-            actCmd.SendMessage("MOD 1,STP\n");*/
-
         }
 
         private void stopAx2Btn_Click(object sender, EventArgs e)
         {
-            /*actCmd.SendMessage("MOD 2,POS\n");
-            actCmd.SendMessage($"POS 2,{posGetAx2Text.Text},1\n");
-            actCmd.SendMessage("MOD 2,STP\n");*/
-
-            /*actCmd.SendMessage($"MOD 2,POS :POS 2,{posGetAx2Text.Text},1\n"); // второй вариант (проверить)
-            actCmd.SendMessage("MOD 2,STP\n");
-
-            actCmd.SendMessage("MOD 2,RAT\n"); // третий вариант (проверить)
-            actCmd.SendMessage("RAT 2,1,1\n");
-            actCmd.SendMessage("MOD 2,STP\n");*/
-
             actCmd.SendMessage("MOD 2,STP\n"); 
         }
 
@@ -391,9 +348,6 @@ namespace ActidinController
         {
             QuietSelect(actCmd.SendMessage("MOD &,?\n")); // запрос режима работы привода
             QuietSelect(actCmd.SendMessage("PRV &,?\n")); // запрос положения, скорости и ускорения
-            // QuietSelect(actCmd.SendMessage("RPV &,?\n"));
-            // QuietSelect(actCmd.SendMessage("MOD &,?:FRZ &,?\n"));
-            // QuietSelect(actCmd.SendMessage("MOD &,?:PRV &,?\n"));
             StatusGetAx();
         }
 
@@ -424,6 +378,34 @@ namespace ActidinController
             fAx1 = (countFreq1 >= 0 && countFreq1 <= 2) ? freqSetAx1Text.Text : "0.0";
             double countFreq2 = Convert.ToDouble(freqSetAx2Text.Text.Replace('.', ','));
             fAx2 = (countFreq2 >= 0 && countFreq2 <= 2) ? freqSetAx2Text.Text : "0.0";
+        }
+
+        private void GoStepBtn_Click(object sender, EventArgs e)
+        {
+            timerStep.Interval = 1000*Convert.ToInt32(DelayStepText.Text);
+            timerStep.Enabled = true;
+        }
+
+        private void timerStep_Tick(object sender, EventArgs e)
+        {
+            int countStepForCircle = Math.Abs (360 / Convert.ToInt32(StepText.Text)); // количество шагов для прохождения полного круга в зависимости от размера шага
+            double countPos1 = Convert.ToDouble(posSetAx1Text.Text.Replace('.', ','));
+            countPos1 += stepCount * Convert.ToDouble(StepText.Text);
+            string stepAx1 = Convert.ToString(countPos1);
+
+            if (statusGetAx1Text.Text == " POS") { actCmd.SendMessage($"POS 1,{stepAx1},{rAx1}\n"); }
+            else
+            {
+                MessageBox.Show("Поворот по кругу возможен только в режиме POS");
+                timerStep.Enabled = false;
+            }
+            if(stepCount < countStepForCircle) stepCount++;
+            else
+            {
+                stepCount = 0;
+                timerStep.Enabled = false;
+            }
+
         }
     }
 

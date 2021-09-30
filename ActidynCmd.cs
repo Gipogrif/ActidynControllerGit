@@ -13,22 +13,6 @@ namespace ActidinController
     {
         IPEndPoint ipPoint;
         Socket socket;
-        /*public ActidynCmd(string address, int port)
-        {
-            try
-            {
-                ipPoint = new IPEndPoint(IPAddress.Parse(address), port);
-
-                socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                // подключаемся к удаленному хосту
-                socket.Connect(ipPoint);
-            }
-            finally
-            {
-
-            }
-
-        }*/
 
         public bool ActidynCmdConnect(string address, int port)
         {
@@ -38,7 +22,20 @@ namespace ActidinController
 
                 socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 // подключаемся к удаленному хосту
-                socket.Connect(ipPoint);
+
+                IAsyncResult result = socket.BeginConnect(ipPoint, null, null);
+
+                bool success = result.AsyncWaitHandle.WaitOne(1000, true); // если не можем подключиться больше секунды выдаем ошибку
+
+                if (socket.Connected)
+                {
+                    socket.EndConnect(result);
+                }
+                else
+                {
+                    socket.Close();
+                }
+
                 return true;
             }
             catch
@@ -52,23 +49,6 @@ namespace ActidinController
         {
             try
             {
-               //string quiet;
-               //string[] split;
-               // int count = -1;
-                //char x;
-                /*if (message.Length < 9)
-                {
-                    byte[] data = new byte[8];
-                    data = Encoding.UTF8.GetBytes(message);
-
-                    socket.Send(data, 8, 0);
-                }
-                else
-                {
-                    byte[] data = Encoding.UTF8.GetBytes(message);
-                    socket.Send(data, 16, 0);
-                }*/
-
                 byte[] data = Encoding.UTF8.GetBytes(message);
                 socket.Send(data);
 
@@ -84,63 +64,9 @@ namespace ActidinController
                     bytes = socket.Receive(buf, buf.Length, 0);
                     builder.Append(Encoding.UTF8.GetString(buf, 0, bytes));
                 }
-               // quiet = builder.ToString();
-               // split = quiet.Split(',');
                 return message + "," + builder.ToString();
-
-               /* quiet = builder.ToString();
-                if (quiet.Length > 0)
-                {
-                    split = quiet.Split(',');
-                    count = (int)char.GetNumericValue(split[0][split[0].Length - 1]);
-                    // x = split[0][split[0].Length - 1];
-
-                    switch (count)
-                    {
-                        case 0:
-                            return split[0];
-                        case 1:
-                            return split[1];
-                        case 2:
-                            return
-                      
-                            
-                    }
-                    if (count == 0)
-                    {
-                        return split[0];
-                    }
-                    else if (count == 1)
-                    {
-                        return split[1];
-                    }
-                    else
-                    {
-                        return "Ошибка if2";
-                    }
-                }
-                else return "ошибка if1";
-               /* string[] words = new string[2];
-                words = textBox1.Text.Split(new char[] { '°', });
-                try
-                {
-                    words[1] = words[1].Substring(0, words[1].Length - 1); // удаляем последний знак в строке
-                    int a = Convert.ToInt32(words[0]) + Convert.ToInt32(words[1]);
-                    if (words[0].StartsWith("-"))
-                    {
-                        words[0] = words[0].Substring(1);
-                        //trackBar1.Value = Convert.ToInt32(words[0]) * 65536 / 360 + Convert.ToInt32(words[1]) * 65536 / 21600; ошибка видимо по тому что выходит за диапазон возможных значений
-                        //trackBar1.Value = -trackBar1.Value;
-                        a = Convert.ToInt32(words[0]) * 65536 / 360 + Convert.ToInt32(words[1]) * 65536 / 21600;
-                        trackBar1.Value = -a;
-                    }
-                    else
-                    {
-                        trackBar1.Value = Convert.ToInt32(words[0]) * 65536 / 360 + Convert.ToInt32(words[1]) * 65536 / 21600;
-                    }*/
-
-                   // return message + " : " + builder.ToString()+" after split: " + split[1] + split[2];
             }
+
             catch (Exception ex)
             {
                 return "SendMessage error" + ex.Message;
@@ -179,8 +105,6 @@ namespace ActidinController
                 byte[] data = Encoding.UTF8.GetBytes("MOD 1,POS\n");
                 socket.Send(data);
 
-                //Thread.Sleep(1);
-
                 data = Encoding.UTF8.GetBytes(message);
                 socket.Send(data);
 
@@ -211,8 +135,6 @@ namespace ActidinController
             {
                 byte[] data = Encoding.UTF8.GetBytes("MOD 2,POS\n");
                 socket.Send(data);
-
-                //Thread.Sleep(1);
 
                 data = Encoding.UTF8.GetBytes(message);
                 socket.Send(data);
